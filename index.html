@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOOFIES</title>
+
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+                
+  <!--_________________Advent pro & Montserrat__________________  --> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<!-- __________________Violety Dreams__________________ -->
+    <link href="https://fonts.cdnfonts.com/css/violety-dreams" rel="stylesheet">
+<!-- _______________________Comfortaa_________________________ -->
+    <link href="https://fonts.cdnfonts.com/css/comfortaa-3" rel="stylesheet">
+
+
+    <link href="https://fonts.cdnfonts.com/css/wix-madefor-display" rel="stylesheet">
+                
+                    
+
+
+    <style>
+        
+    /*--------------- FONT ADVENT-PRO----------------------- */
+        .font-advent-pro {
+            font-family: 'Advent Pro', sans-serif;
+        }
+
+        .font-violety-dreams{
+            font-family: 'Violety Dreams', sans-serif;
+        }
+
+        .font-comfortaa{
+            font-family: 'Comfortaa', sans-serif;
+        }
+
+        .font-wix{
+            font-family: 'Wix Madefor Display', sans-serif;                                    
+        }
+
+    /* ------------------custom color------------------- */
+        .custom-blue{
+            background-color: rgb(128, 240, 240);
+        }
+
+        .custom-olive{
+            background-color: rgb(117, 157, 115);
+        }
+
+        .custom-sky{
+            background-color: rgb(156, 216, 239);
+        }
+
+    /* ---------------SLIDE IN EFFECT----------------- */
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .slide-in {
+            animation: slideIn 2s ease-in-out;
+        }
+
+    /* ----------------FADE IN EFFECT-------------------- */
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .fade-in {
+            animation: fadeIn 4s ease-in-out;
+        }
+
+    /* ------------------FADE IN OUT-------------------------- */
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+        .fade-out {
+            animation: fadeOut 3.6s ease-in-out;
+        }
+
+    /* ------------------MOVING LETTER ANIMATION---------------- */
+
+        @keyframes moveLetters {        
+            0% { transform: translateX(-15vw); opacity: 0; }
+            33%, 66% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(15vw); opacity: 0; }
+        }
+        .animate-move { 
+            animation: moveLetters 2.4s infinite ease-in-out; 
+        }
+
+    /* ----------------------LOADING LINE ANIMATION------------------------- */
+
+        @keyframes loadingLine {
+            0% { width: 0%; opacity: 0; }
+            33%, 66% { width: 40%; opacity: 0.8; }
+            85% { width: 0%; opacity: 1; }
+            100% { opacity: 0; width: 0%; }
+        }
+        .animate-loading-line {
+            animation: loadingLine 2.4s infinite ease-in-out; 
+        }
+
+    /* -------------------------DROPDOWN ANIMATION (Not Used)--------------------- */
+
+        @keyframes dropDown {
+            0% {
+            transform: translateY(-100px);
+            opacity: 0;
+        }
+            50% {
+            opacity: 1;
+        }
+            100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        }
+    
+        .animate-drop {
+            animation: dropDown 1s ease-in-out forwards;
+        }
+
+    /* --------------------SLIDER EFFECT(Not Used for Now)---------------------- */
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            33% { transform: translateX(-100%); }
+            66% { transform: translateX(-200%); }
+            100% { transform: translateX(0); }
+        }
+
+        .slider {
+            display: flex;
+            animation: slide 30s linear infinite;
+        }
+
+    /* ---------------------HOVER STRIKE THROUGH---------------------- */
+
+        .strike-hover {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .strike-hover::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 34%;
+            width: 0;
+            height: 3px;
+            background-color: rgb(255, 0, 0);
+            transition: width 0.4s ease-in-out;
+        }
+
+        .strike-hover:hover::after {
+            width: 100%;
+        }
+
+        /* Hide main content and show the message for small screens */
+        @media (max-width: 768px) {
+            #content {
+            display: none;
+            }
+            #small-screen-message {
+            display: flex;
+            }
+        }    
+
+    </style>
+  
+</head>
+
+<body class="font-advent-pro ">
+
+  <!-- Loader -->
+   <div id="loader" class="relative bg-gray-900 text-white h-screen flex flex-col justify-center items-center overflow-hidden">
+    <div id="loader" class="absolute inset-0 flex flex-col justify-center items-center bg-black z-50">
+      <div class="text-6xl flex space-x-5 font-semibold tracking-widest">
+        <span class="animate-move opacity-0">M</span>
+        <span class="animate-move opacity-0 delay-100">E</span>
+        <span class="animate-move opacity-0 delay-200">E</span>
+        <span class="animate-move opacity-0 delay-300">T</span>
+      </div>
+      <div class="w-48 h-1 bg-white mt-4 animate-loading-line"></div>
+      <p class="mt-4 text-center text-lg text-gray-300 fade-out">The Fun Loving</p>
+    </div>
+   </div>
+
+
+  <!-- Add this inside the <body> tag -->
+    <div id="small-screen-message" class="hidden fixed inset-0 bg-black text-white flex flex-col justify-center items-center">
+        <h1 class="text-3xl font-bold">Open in Laptop only</h1>
+        <p class="text-lg mt-2">This website is best viewed on larger screens.</p>
+    </div>
+
+
+  <!-- Main Content (Initially Hidden) -->
+  <div id="content" class="hidden">
+ 
+    <div class="relative flex flex-col justify-center items-center bg-black max-w-screen h-screen">
+        <!-- Alternate way// (bg-black max-w-screen h-screen) -->
+  
+          <!-- <img class="relative w-full h-screen" src="./goofies_assets/black-background.png" alt="black bg"> -->
+  
+          <header class="absolute top-0 right-0 flex gap-5 mr-10 mt-5">
+              <a class="text-white text-xl fade-in hover:text-gray-400" href="./gallery.html">Gallery</a>
+              <a class="text-white text-xl fade-in hover:text-gray-400" href="./roast.html">Roast</a>
+          </header>   
+  
+          <span class="absolute text-8xl font-medium text-white p-6 top-0 mt-50 slide-in font-violety-dreams">GOOFIES</span>
+          <p class="absolute text-md opacity-80 text-white text-center w-250 fade-in">"Meet The Goofies. A Crew of 12 clueless degenerates that are lethargic, indecisive and pathetic. This group includes a werewolf, a caveman, an african american native Indian Philosopher, A sloth, A braindead gymrat, a delusional anime character, a stupid short stack, an attention deficit squirrel, a baby panda, Doraemon, a clueless pokemon and finally 5 foot 2 inch of headache."</p>
+
+    </div>
+  
+      <br>
+      <br>
+  
+      <br>
+      <br>
+  
+    <div class="flex justify-center items-center ">
+          <span class="text-4xl">Resenting the Abnormal`s</span>
+    </div>
+  
+      <br>
+      <br>
+      
+  
+      <!-- __________________________Mahilaye__________________________ -->
+    <div class="flex justify-end items-center">
+        <img class="w-30" src="./goofies_assets/intro_title/mahila.jpg" alt="mahila">
+        <span class="text-3xl mr-10">Malhila Mandal</span>
+    </div>
+
+ 
+      <!--________________________________Harshali// left____________________________  -->
+    <div>
+        <div class="group relative w-full h-full flex overflow-hidden ">
+            <!-- Background Fill -->
+            <div class="absolute inset-0 bg-lime-200 transform scale-x-0 origin-right transition-transform duration-500 group-hover:scale-x-100"></div>
+        
+            <!-- Main Content -->
+            <div class="relative z-10 flex items-center justify-center h-full transition duration-300">
+                <div class="flex p-6 justify-start items-center gap-10">
+    
+                    <img class="rounded-full w-60 object-contain" src="./goofies_assets/intro_profile_pic/harshail_chabukswar.jpg" alt="harshail-chabukswar">
+            
+                    <div class="flex flex-col items-start ">
+                        <span class="text-3xl">Harshali Chabukswar</span>
+                        
+                        <p class="w-125 text-md text-start">
+                            This is the brightest character of the tribe! No matter how bad your day must have gone she'll be right there to cheer you up. She's been living up to her name undoubtedly, she's the funniest and always carries her positive vibes along.
+                        </p>
+                    </div>
+    
+                </div>
+            </div>
+            <!-- Text on the Left -->
+                <div class="absolute top-0 right-4 h-full flex items-center text-transparent group-hover:text-black group-hover:translate-x-0 translate-x-4 transition duration-500">
+                    <span class="font-medium text-3xl opacity-80">Nashik meri jeb mey</span>
+                </div>
+            </div>
+    </div>
+  
+      <!--________________________________Sudnya// right____________________________  -->
+    <div>
+        <div class="group relative w-full h-full flex-row-reverse overflow-hidden ">
+            <!-- Background Fill -->
+            <div class="absolute inset-0 custom-sky transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100"></div>
+        
+            <!-- Main Content -->
+            <div class="relative z-10 flex items-center justify-end h-full transition duration-300">
+                <div class="flex p-6 justify-start items-center gap-10">
+            
+                    <div class="flex flex-col items-end">
+                        <span class="text-3xl  text-right">Sudnya Mishra</span>
+                        
+                        <p class="w-125 text-md text-end">
+                            As unique as her name, Sudnya is a sweet and silent individual who has a deep taste for literature and art. Her name stands for wisdom but she rarely would stand by it when it comes to her hopeless romantic desires. Sudya likes Books, Kdramas and cats. She's the perfect blend of sugar and spice that make her special.
+                        </p>
+                    </div>
+    
+                    <img class="rounded-full w-65 object-contain" src="./goofies_assets/intro_profile_pic/sudnya_mishra.jpg" alt="sudnya-mishra">
+    
+                </div>
+            </div>
+            <!-- Text on the Right -->
+                <div class="absolute top-0 left-4 h-full flex items-center text-transparent group-hover:text-black group-hover:translate-x-0 translate-x-4 transition duration-500">
+                    <span class="font-medium text-3xl opacity-80">Chota Don</span>
+                </div>
+        </div>
+    </div>
+  
+      <!-- _______________________________Preeti// left_________________________ -->
+    <div>
+        <div class="group relative w-full h-full flex overflow-hidden ">
+            <!-- Background Fill -->
+            <div class="absolute inset-0 bg-rose-300 transform scale-x-0 origin-right transition-transform duration-500 group-hover:scale-x-100"></div>
+        
+            <!-- Main Content -->
+            <div class="relative z-10 flex items-center justify-center h-full transition duration-300">
+                <div class="flex p-6 justify-start items-center gap-10">
+    
+                    <img class="rounded-full w-65 object-contain" src="./goofies_assets/intro_profile_pic/preeti_mishra.jpg" alt="preeti-mishra">
+            
+                    <div class="flex flex-col items-start">
+                        <span class="text-3xl">Preeti Mishra</span>
+                        
+                        <p class="w-125 text-md text-start">
+                            Preeti..Preetii...PREETIII! Yeah, that explains how much the people of the group have to struggle to get her attention! Preeti is a tycoon as you can never expect a stable conversation with her no matter what the situation is! Preeti is a happy go lucky  girl with great ambitions for life. She loves her friends and likes to tease them a lot. Almost every guy from the group fears a pinch from her, but that's just her way of expressing friendship.
+                        </p>
+                    </div>
+    
+                </div>
+            </div>
+            <!-- Text on the Left -->
+                <div class="absolute top-0 right-4 h-full flex items-center text-transparent group-hover:text-black group-hover:translate-x-0 translate-x-4 transition duration-500">
+                    <span class="font-medium text-3xl opacity-80">Malegaon ka gunda</span>
+                </div>
+            </div>
+    </div>
+  
+      <!-- _________________________________Payal-l// right________________________ -->
+    <div>
+        <div class="group relative w-full h-full flex-row-reverse overflow-hidden ">
+            <!-- Background Fill -->
+            <div class="absolute inset-0 bg-yellow-200 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100"></div>
+        
+            <!-- Main Content -->
+            <div class="relative z-10 flex items-center justify-end h-full transition duration-300">
+                <div class="flex p-6 justify-start items-center gap-10">
+            
+                    <div class="flex flex-col items-end">
+                        <span class="text-3xl text-right">Payal Labhade</span>
+                        
+                        <p class="w-125 text-md text-end">
+                            Payal or we should say Payal the 1st is considered to be the sole individual behind group's foundational history. Payal's accomplishments and principles have always stood taller than what Payal actually appears to be! Payal has the  girlboss energy that makes her a great leader, but her tantrums on the other hand also don't make her less than a kid.
+                        </p>
+                    </div>
+    
+                    <img class="rounded-full w-60 object-contain" src="./goofies_assets/intro_profile_pic/payal_labhade.jpg" alt="payal-labhade">
+    
+                </div>
+            </div>
+            <!-- Text on the Right -->
+                <div class="absolute top-0 left-4 h-full flex items-center text-transparent group-hover:text-black group-hover:translate-x-0 translate-x-4 transition duration-500">
+                    <span class="font-medium text-3xl opacity-80">Adgaon ka Bhai</span>
+                </div>
+        </div>
+    </div>
+  
+      <!-- _________________________________Payal-c// left______________________ -->
+    <div>
+        <div class="group relative w-full h-full flex overflow-hidden ">
+            <!-- Background Fill -->
+            <div class="absolute inset-0 bg-teal-200 transform scale-x-0 origin-right transition-transform duration-500 group-hover:scale-x-100"></div>
+        
+            <!-- Main Content -->
+            <div class="relative z-10 flex items-center justify-center h-full transition duration-300">
+                <div class="flex p-6 justify-start items-center gap-10">
+    
+                    <img class="rounded-full w-65 object-contain" src="./goofies_assets/intro_profile_pic/payal_chitte.jpg" alt="payal-chitte">
+            
+                    <div class="flex flex-col items-start">
+                        <span class="text-3xl">Payal Chitte</span>
+                        
+                        <p class="w-125 text-md text-start">
+                            Payal the 2nd popularly known as your friendly neighborhood Doraemon, is identified to be a joyous, confused, and an anti innocent individual. The pen name Doraemon represents her helpful and caring nature for the group.The people of the group love her for her silly activities and suspicious statements
+                        </p>
+                    </div>
+    
+                </div>
+            </div>
+            <!-- Text on the Left -->
+                <div class="absolute top-0 right-4 h-full flex items-center text-transparent group-hover:text-black group-hover:translate-x-0 translate-x-4 transition duration-500">
+                    <span class="font-medium text-3xl opacity-80">Doreamoan</span>
+                </div>
+            </div>
+    </div>
+  
+      <br>
+      <br>
+  
+      <!-- ____________________Ladke log___________________________ -->
+  
+    <div class="flex justify-end items-center">
+        <img class="w-30" src="./goofies_assets/intro_title/londa.jpg" alt="londa">
+          <span class="text-4xl mr-10">Londe Lapade</span>
+    </div>
+  
+      <br>
+      <br>
+  
+        <!-- ------------------------------------Mandar// left---------------------------------- -->
+  
+    <div>
+        <div class="group relative w-full h-full flex overflow-hidden ">
+        <!-- Background Fill -->
+            <div class="absolute inset-0 bg-orange-200 transform scale-x-0 origin-right transition-transform duration-500 group-hover:scale-x-100"></div>
+    
+        <!-- Main Content -->
+            <div class="relative z-10 flex items-center justify-center h-full transition duration-300">
+                <div class="flex p-6 justify-start items-center gap-10">
+
+                    <img class="rounded-full w-65 object-contain" src="./goofies_assets/intro_profile_pic/mandar_jadhav.jpg" alt="mandar-jadhav">
+        
+                    <div class="flex flex-col items-start">
+                        <span class="text-3xl">Mandar Jadhav</span>
+                    
+                        <p class="w-125 text-md text-start">
+                        This distinguished gentleman is the reason Goofies came into existence. As well read he seems to be, he's recognised for the most idiotic events of the group's history! An intellectual individual, who's a kid at heart and loves cinema.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        <!-- Text on the LEFT -->
+            <div class="absolute top-0 right-4 h-full flex items-center text-transparent group-hover:text-black group-hover:translate-x-0 translate-x-4 transition duration-500">
+                <span class="font-medium text-3xl opacity-80">Jaggu</span>
+            </div>
+        </div>
+    </div>
+  
+        <!-------------------------------------------Rahul// right----------------------------------------  -->
+  
+    <div>
+    <div class="group relative w-full h-full flex-row-reverse overflow-hidden ">
+        <!-- Background Fill -->
+        <div class="absolute inset-0 bg-slate-200 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100"></div>
+    
+        <!-- Main Content -->
+        <div class="relative z-10 flex items-center justify-end h-full transition duration-300">
+            <div class="flex p-6 justify-start items-center gap-10">
+        
+                <div class="flex flex-col items-end">
+                    <span class="text-3xl text-right">Rahul Hadpad</span>
+                    
+                    <p class="w-125 text-md text-end">
+                        The whimsical wizard who likes solitude. Rahul is a philosophical individual who's specially abled with technology. Rahul has an unparalleled perspective of the rituals of this planet and has an unorthodox state of mind. The group loves him for his silly comments and helpful nature.
+                    </p>
+                </div>
+
+                <img class="rounded-full w-65 object-contain" src="./goofies_assets/intro_profile_pic/rahul_hadpad.jpg" alt="rahul-hadpad">
+
+            </div>
+        </div>
+        <!-- Text on the Right -->
+            <div class="absolute top-0 left-4 h-full flex items-center text-transparent group-hover:text-black group-hover:translate-x-0 translate-x-4 transition duration-500">
+                <span class="font-medium text-3xl opacity-80">Philosloth</span>
+            </div>
+    </div>
+    </div>
+  
+        <!-- -------------------------------------------Aditya// left------------------------------------- -->
+  
+    <div>
+    <div class="group relative w-full h-full flex overflow-hidden ">
+        <!-- Background Fill -->
+        <div class="absolute inset-0 custom-blue transform scale-x-0 origin-right transition-transform duration-500 group-hover:scale-x-100"></div>
+    
+        <!-- Main Content -->
+        <div class="relative z-10 flex items-center justify-center h-full transition duration-300">
+            <div class="flex p-6 justify-start items-center gap-10">
+
+                <img class="rounded-full w-65 object-contain" src="./goofies_assets/intro_profile_pic/aditya_bachawe.jpg" alt="aditya-bachawe">
+        
+                <div class="flex flex-col items-start">
+                    <span class="text-3xl">Aditya Bachawe</span>
+                    
+                    <p class="w-125 text-md text-start">
+                        The Group Mom™ who yaps like a podcast but shows up late to his own advice. Generous at heart, a try-hard in everything, and a comic genius (intentional or not). His humor? Darker than a blackout, but his blush gives him away. Creative, chaotic, and always fashionably late—because why be on time when you can make an entrance?
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- Text on the LEFT -->
+            <div class="absolute top-0 right-4 h-full flex items-center text-transparent group-hover:text-black group-hover:translate-x-0 translate-x-4 transition duration-500">
+                <span class="font-medium text-3xl opacity-80">Design loge ?</span>
+            </div>
+        </div>
+    </div>
+  
+        <!-- ---------------------------------------------OM S// right-------------------------------------- -->
+  
+    <div>
+    <div class="group relative w-full h-full flex-row-reverse overflow-hidden ">
+        <!-- Background Fill -->
+        <div class="absolute inset-0 custom-olive transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100"></div>
+    
+        <!-- Main Content -->
+        <div class="relative z-10 flex items-center justify-end h-full transition duration-300">
+            <div class="flex p-6 justify-start items-center gap-10">
+        
+                <div class="flex flex-col items-end">
+                    <span class="text-3xl text-right">Om Sonawane</span>
+                    
+                    <p class="w-125 text-md text-end">
+                        Introduced to the group as a brother in law but eventually turning into a bro, Om is that one ambivert of the group who's got the best comic timing and is known to be the brainrot connoisseur. He's a heavy lifter and a penny pincher. If you have him around you, be careful as he might eat up your lunch with or without your consent
+                    </p>
+                </div>
+
+                <img class="rounded-full w-65 object-contain" src="./goofies_assets/intro_profile_pic/om_sonawane.jpg" alt="om-sonawane">
+
+            </div>
+        </div>
+        <!-- Text on the Right -->
+            <div class="absolute top-0 left-4 h-full flex items-center text-transparent group-hover:text-black group-hover:translate-x-0 translate-x-4 transition duration-500">
+                <span class="font-medium text-3xl opacity-80">Gym Rat</span>
+            </div>
+    </div>
+    </div>  
+  
+        <!-- ---------------------------------------------Shubham// left------------------------------- -->
+  
+    <div>
+    <div class="group relative w-full h-full flex overflow-hidden ">
+        <!-- Background Fill -->
+        <div class="absolute inset-0 bg-stone-400 transform scale-x-0 origin-right transition-transform duration-500 group-hover:scale-x-100"></div>
+    
+        <!-- Main Content -->
+        <div class="relative z-10 flex items-center justify-center h-full transition duration-300">
+            <div class="flex p-6 justify-start items-center gap-10">
+
+                <img class="rounded-full w-60 object-contain" src="./goofies_assets/intro_profile_pic/shubham_gawade.jpg" alt="shubham-gawade">
+        
+                <div class="flex flex-col items-start">
+                    <span class="text-3xl">Shubham Gawde</span>
+                    
+                    <p class="w-125 text-md text-start">
+                        The moon of the group as you'll see him once in 15 days. Shubham is like an absent parent you usually see in movies. A glance at him might make you feel like he's a protagonist of some underrated anime but that's not the only thing about him, He's a great artist and a great friend. He's the one you can count on whenever you find yourself in trouble. We bet that you might never have met a person like him before!
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- Text on the LEFT -->
+            <div class="absolute top-0 right-4 h-full flex items-center text-transparent group-hover:text-black group-hover:translate-x-0 translate-x-4 transition duration-500">
+                <span class="font-medium text-3xl opacity-80">Dreamer</span>
+            </div>
+        </div>
+    </div>
+  
+        <!-------------------------------------------OM B// right------------------------------------------>
+  
+    <div>
+        <div class="group relative w-full h-full flex-row-reverse overflow-hidden ">
+        <!-- Background Fill -->
+        <div class="absolute inset-0 bg-lime-300 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100"></div>
+    
+        <!-- Main Content -->
+        <div class="relative z-10 flex items-center justify-end h-full transition duration-300">
+            <div class="flex p-6 justify-start items-center gap-10">
+        
+                <div class="flex flex-col items-end">
+                    <span class="text-3xl  text-right">Om Bhamare</span>
+                    
+                    <p class="w-125 text-md text-end">
+                        One of the OGs of the group; Om is the short king that every girl finds to be sweet and loving. He Loves cricket more than his life, So much that he even dreams of sharing a bed with Rohit Sharma. Words cannot describe how big of a simp he is, but numbers can 9 on a scale of 10! Om loves to hike, play sports and yap about life in Sakri.
+                    </p>
+                </div>
+
+                <img class="rounded-full w-60 object-contain" src="./goofies_assets/intro_profile_pic/om_bhamre.jpg" alt="om-b">
+
+            </div>
+        </div>
+        <!-- Text on the Right -->
+            <div class="absolute top-0 left-4 h-full flex items-center text-transparent group-hover:text-black group-hover:translate-x-0 translate-x-4 transition duration-500">
+                <span class="font-medium text-3xl opacity-80">Ye mera area hai</span>
+            </div>
+        </div>
+    </div>   
+  
+        <!-- ----------------------------------//shree// left-------------------------------------- -->
+  
+    <div>
+        <div class="group relative w-full h-full flex overflow-hidden ">
+              <!-- Background Fill -->
+              <div class="absolute inset-0 bg-zinc-100 transform scale-x-0 origin-right transition-transform duration-500 group-hover:scale-x-100"></div>
+          
+              <!-- Main Content -->
+              <div class="relative z-10 flex items-center justify-center h-full transition duration-300">
+                  <div class="flex p-6 justify-start items-center gap-10">
+  
+                      <img class="rounded-full w-60 object-contain" src="./goofies_assets/intro_profile_pic/shree_nemane.jpg" alt="shree-nemane">
+              
+                      <div class="flex flex-col items-start">
+                          <span class="text-3xl">Shreedarshan Nemane</span>
+                          
+                          <p class="w-125 text-md text-start">
+                            Guy with two usernames combined (Shree+Darshan) stands by it, as it shows the split personality disorder he has. On one hand you have Shree who's determined, hardworking and helpful and on the other you have Darshan who's an absolute unleashed ape that enjoys wild shit! Shree as we call him is a person who you can trust with all your heart. You don't need to worry about your problems when you have Shree around!
+                          </p>
+                      </div>
+                  </div>
+              </div>
+              <!-- Text on the Right -->
+                  <div class="absolute top-0 right-4 h-full flex items-center text-transparent group-hover:text-black group-hover:translate-x-0 translate-x-4 transition duration-500">
+                      <span class="font-medium text-3xl opacity-80">Caveman</span>
+                  </div>
+        </div>
+    </div>
+  
+        <!-- -----------------------------------Solgan--------------------------- -->
+  
+    <div class="flex justify-center items-center my-30">
+          <span class="text-5xl font-medium">"Our group isn’t a vibe, it’s a warning sign."</span>
+    </div>
+  
+    <br>
+
+    <!-- ------------------------------------FACTS SECTION----------------------------- -->
+    <div class="flex flex-col justify-center items-center px-4 font-wix text-sm">
+        <!-- Title -->
+        <span class="text-3xl font-semibold text-center mb-6"><span class="strike-hover">Random</span> Facts of Our Group</span>
+
+        <br>
+    
+        <!-- Grid Container -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
+            <p class="bg-gray-200 rounded-lg shadow-md flex items-center justify-center min-h-[100px] m-2 hover:scale-105 transition-transform duration-300">
+                <span class="block mx-4">"Useless as individuals, unstoppable as a team of useless people."</span>
+            </p>
+            <p class="bg-gray-200 rounded-lg shadow-md flex items-center justify-center min-h-[100px] m-2 hover:rotate-6 transition-transform duration-300">
+                <span class="block mx-4">"We procrastinate everything—except starting unnecessary chaos."</span>
+            </p>
+            <p class="bg-gray-200 rounded-lg shadow-md flex items-center justify-center min-h-[100px] m-2 hover:translate-x-4 transition-transform duration-300">
+                <span class="block mx-4">"No work ethic, but an unmatched ability to create memes about it."</span>
+            </p>
+            <p class="bg-gray-200 rounded-lg shadow-md flex items-center justify-center min-h-[100px] m-2 hover:opacity-50 transition-transform duration-300">
+                <span class="block mx-4">"We bond over mutual laziness and shared bad decisions."</span>
+            </p>
+            <p class="bg-gray-200 rounded-lg shadow-md flex items-center justify-center min-h-[100px] m-2 hover:skew-x-10 transition-transform duration-300">
+                <span class="block mx-4">"We never have a plan, yet somehow we’re always in the middle of something wild."</span>
+            </p>
+            <p class="bg-gray-200 rounded-lg shadow-md flex items-center justify-center min-h-[100px] m-2 hover:translate-y-4 transition-transform duration-300">
+                <span class="block mx-4">"Our greatest skill? Turning the simplest task into a whole production."</span>
+            </p>
+            <p class="bg-gray-200 rounded-lg shadow-md flex items-center justify-center min-h-[100px] m-2 -rotate-6 hover:rotate-0 transition-transform duration-300">
+                <span class="block mx-4">"We’re the group that makes plans just to cancel them later."</span>
+            </p>
+            <p class="bg-gray-200 rounded-lg shadow-md flex items-center justify-center min-h-[100px] m-2 hover:blur-sm transition-transform duration-300">
+                <span class="block mx-4">"We don’t do drama… drama does us."</span>
+            </p>
+            <p class="bg-gray-200 rounded-lg shadow-md flex items-center justify-center min-h-[100px] m-2 ">
+                <span class="block mx-4">"We are the reason ‘caution’ signs exist."</span>
+            </p>
+          
+        </div>
+    </div>
+    
+    <br>
+
+        <!-- ---------------------------------Maan Ki Baat--------------------------- -->
+  
+    <div class="max-w-6xl mx-auto my-20">
+          <h1 class="text-4xl font-bold text-center mb-5">Mann ki Baat</h1>
+          
+          <!-- Carousel Container -->
+          <div id="carousel" class="relative w-full overflow-hidden">
+          <div class="flex transition-transform duration-500 ease-in-out" id="carousel-inner">
+              <!-- Review 1 -->
+              <div class="flex-shrink-0 w-full text-center px-10 py-8 bg-white">
+              <p class="text-lg italic mb-4 px-2">"Goofies the never ending pool of memories, I wish i could stay with them longer but the journey is abt to end in a year, that does not mean its over, our friendship our bond our laughter will remain the same even after 10 years, all i want to say is ki this group of our's aint just a college group its a family"</p>
+              <h3 class="font-bold text-lg">- Mandar Jadhav</h3>
+              </div>
+              <!-- Review 2 -->
+              <div class="flex-shrink-0 w-full text-center px-10 py-8 bg-white ">
+              <p class="text-lg italic mb-4 px-6">"A group is a number of individuals or things considered or classed together because of similarities, but looking at us u might question thiscoz there is no unity, passion, vision in this group. The group's been formed from the first year, its been three years n we still haven't performed a dence, or went on a long trip (LAGTAY MANALI KA SAPNA, NEEND MAIN HI POORA HOGA)"</p>
+              <h3 class="font-bold text-lg">- Om Sonawane</h3>
+              </div>
+              <!-- Review 3 -->
+              <div class="flex-shrink-0 w-full text-center px-10 py-8 bg-white ">
+                <p class="text-lg italic mb-4 px-6">"The group that we have, its not just random people being together, its an emotion. Each and every one have their separate vibe and surprisingly everyone's energy matches out in the end. Its like all flavors mixed to make a mindblowing combination."</p>
+                <h3 class="font-bold text-lg">- Sudnya Mishra</h3>
+                </div>
+              <!-- Review 3 -->
+              <div class="flex-shrink-0 w-full text-center px-10 py-8 bg-white ">
+              <p class="text-lg italic mb-4">"Meet The Goofies. A Crew of 12 clueless degenerates that are lethargic, indecisive and pathetic. This group includes a werewolf, a caveman, an african american native Indian Philosopher, A sloth, A braindead gymrat, a delusional anime character, a stupid short stack, an attention deficit squirrel, a baby panda, Doraemon, a clueless pokemon and finally 5 foot 2 inch of headache."</p>
+              <h3 class="font-bold text-lg">- Aditya Bachawe</h3>
+              </div>
+              <!-- Review  -->
+              <div class="flex-shrink-0 w-full text-center px-10 py-8 bg-white ">
+              <p class="text-lg italic mb-4">"Kuch cheezein sirf waqt ke saath hi samajh mein aati hain, aur jab hum apni engineering ki zindagi ko pichhe chhodenge, tab samajh mein aayega ki yeh din aur yeh log kabhi waise nahi milenge jaise abhi milte hai..har subah har din..This friendship, spending every day together, was the most beautiful part of my life. When we go our separate ways, the memories of every day will touch my heart"</p>
+              <h3 class="font-bold text-lg">- Preeti Mishra</h3>
+            </div>
+          </div>
+  
+          <!-- Navigation Buttons -->
+          <button id="prev" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center">
+              &lt;
+          </button>
+          <button id="next" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center">
+              &gt;
+          </button>
+          </div>
+    </div>
+
+    <br>
+
+    <!-- ---------------------------------FOOTER SECTION------------------------------------- -->
+
+    <div class="bg-black p-8">
+        <div class="flex justify-between">
+            <span class="text-4xl text-white">GOOFIES</span>
+            <a class="text-2xl text-white hover:text-gray-400" href="#" target="_blank" onclick="downloadAndRun()">"Click Here for Free Money"</a>
+        </div>
+        
+        <div class="border border-white w-50 my-2"></div>
+
+        <div class="flex justify-between gap-10">
+            <div class="flex flex-col mt-2">
+                <span class="text-white text-md">Contact Us : Mat karo Na</span>
+                <span class="text-white text-md">Address : College mey milenge</span>
+            </div>
+            <div class="flex gap-30 ">
+                <div class="flex flex-col text-white gap-2">
+                    <span class="font-semibold border-b border-white">Contact Our Talent</span>
+                    <div class="flex flex-col gap-1">
+                    <a class="text-sm hover:text-gray-400" href="https://www.instagram.com/annoid.png?igsh=Z2N5NW9tYWVrMjM5" target="_blank">Aditya Bachawe</a>
+                    <a class="text-sm hover:text-gray-400" href="https://www.instagram.com/mandar.blend?igsh=MXd3ZHFlMTFhczV0Ng==" target="_blank">Mandar Jadhav</a>
+                    <a class="text-sm hover:text-gray-400" href="https://www.instagram.com/isomnia_3d?igsh=eHo0NXdtNXhlYm84" target="_blank">Shubham Gawde</a>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2 text-white">
+                    <span class="font-semibold border-b border-white">We don’t have</span>
+                    <div class="flex flex-col gap-1">
+                    <a class="text-sm hover:text-gray-400" href="#">Instagram</a>
+                    <a class="text-sm hover:text-gray-400" href="#">Facebook</a>
+                    <a class="text-sm hover:text-gray-400" href="#">Twitter</a>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2 text-white">
+                    <span class="font-semibold border-b border-white">Blogs</span>
+                    <div class="flex flex-col">
+                        <span>Abhi likhana baki hai</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <img class="w-35 mr-15" src="./goofies_assets/intro_title/rabbit.png" alt="animale">
+            </div>
+            
+            
+        </div>
+        <div class="flex justify-start text-white">
+            <span class="mt-5">~ Made with ❤️ by <a class="text-gray-400 underline" target="_blank" href="https://shree-nemane.github.io/">Shree</a></span>
+        </div>
+    </div>
+
+    
+  
+  
+  </div>
+
+
+
+
+
+  <script src="script.js"></script>
+
+
+</body>
+</html>
