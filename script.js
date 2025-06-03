@@ -55,23 +55,6 @@ startAutoSlide();
 
 //--------------------------------------------------------------------------------------
 
-//Loader code________________________________________________________________________________________
-//JavaScript to Handle Transition
-window.addEventListener("load", function () {
-  // Check if the session already has "loaderShown"
-  if (!sessionStorage.getItem("loaderShown")) {
-      setTimeout(() => {
-          document.getElementById("loader").classList.add("hidden");
-          document.getElementById("content").classList.remove("hidden");
-          // Set the flag in sessionStorage
-          sessionStorage.setItem("loaderShown", "true");
-      }, 2300); // Loader disappears after 2.3 seconds
-  } else {
-      // Directly show the content if the loader was already shown in this session
-      document.getElementById("loader").classList.add("hidden");
-      document.getElementById("content").classList.remove("hidden");
-  }
-});
 
 //Prank cmd-------------------------------
 
