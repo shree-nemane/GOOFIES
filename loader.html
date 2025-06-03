@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOOFIES</title>
+
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+            
+        /*--------------- FONT ADVENT-PRO----------------------- */
+        .font-advent-pro {
+            font-family: 'Advent Pro', sans-serif;
+        }
+
+
+        /* ------------------MOVING LETTER ANIMATION---------------- */
+
+        @keyframes moveLetters {        
+            0% { transform: translateX(-15vw); opacity: 0; }
+            33%, 66% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(15vw); opacity: 0; }
+        }
+        .animate-move { 
+            animation: moveLetters 2.4s  ease-in-out; 
+        }
+
+        /* ----------------------LOADING LINE ANIMATION------------------------- */
+
+        @keyframes loadingLine {
+            0% { width: 0%; opacity: 0; }
+            33%, 66% { width: 40%; opacity: 0.8; }
+            85% { width: 0%; opacity: 1; }
+            100% { opacity: 0; width: 0%; }
+        }
+        .animate-loading-line {
+            animation: loadingLine 2.4s infinite ease-in-out; 
+        }
+
+        /* ------------------FADE OUT-------------------------- */
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+        .fade-out {
+            animation: fadeOut 3.2s ease-in-out;
+        }
+
+
+    </style>
+
+    <script>
+        setTimeout(function() {
+        window.location.href = "./index.html"; // Redirect to index.html after 2.5 seconds
+        }, 2420); // 2500 milliseconds = 2.5 seconds
+    </script>
+
+
+</head>
+<body class="font-advent-pro">
+
+      <!-- Loader ////////////// Animation -->
+   <div id="animation" class="relative bg-gray-900 text-white h-screen flex flex-col justify-center items-center overflow-hidden">
+    <div id="" class="absolute inset-0 flex flex-col justify-center items-center bg-black z-50">
+      <div class="text-6xl flex space-x-5 font-semibold tracking-widest">
+        <span class="animate-move opacity-0">M</span>
+        <span class="animate-move opacity-0 delay-100">E</span>
+        <span class="animate-move opacity-0 delay-200">E</span>
+        <span class="animate-move opacity-0 delay-300">T</span>
+      </div>
+      <div class="w-48 h-1 bg-white mt-4 animate-loading-line"></div>
+      <p class="mt-4 text-center text-lg text-gray-300 fade-out">The Fun Loving</p>
+    </div>
+   </div>
+
+
+    
+</body>
+</html>
