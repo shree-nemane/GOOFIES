@@ -61,6 +61,11 @@
     </style>
 
     <script>
+        // Hide the loading line after 2.4s (animation duration)
+        setTimeout(function() {
+            document.querySelector('.animate-loading-line').style.opacity = '0';
+        }, 2400);
+        
         setTimeout(function() {
         window.location.href = "./main.html"; // Redirect to index.html after 2.5 seconds
         }, 2420); // 2500 milliseconds = 2.5 seconds
