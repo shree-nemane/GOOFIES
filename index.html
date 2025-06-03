@@ -18,13 +18,10 @@
 
 
     <link href="https://fonts.cdnfonts.com/css/wix-madefor-display" rel="stylesheet">
-                
-                    
-
 
     <style>
         
-    /*--------------- FONT ADVENT-PRO----------------------- */
+    /*--------------- FONT USED----------------------- */
         .font-advent-pro {
             font-family: 'Advent Pro', sans-serif;
         }
@@ -98,49 +95,6 @@
             animation: fadeOut 3.6s ease-in-out;
         }
 
-    /* ------------------MOVING LETTER ANIMATION---------------- */
-
-        @keyframes moveLetters {        
-            0% { transform: translateX(-15vw); opacity: 0; }
-            33%, 66% { transform: translateX(0); opacity: 1; }
-            100% { transform: translateX(15vw); opacity: 0; }
-        }
-        .animate-move { 
-            animation: moveLetters 2.4s infinite ease-in-out; 
-        }
-
-    /* ----------------------LOADING LINE ANIMATION------------------------- */
-
-        @keyframes loadingLine {
-            0% { width: 0%; opacity: 0; }
-            33%, 66% { width: 40%; opacity: 0.8; }
-            85% { width: 0%; opacity: 1; }
-            100% { opacity: 0; width: 0%; }
-        }
-        .animate-loading-line {
-            animation: loadingLine 2.4s infinite ease-in-out; 
-        }
-
-    /* -------------------------DROPDOWN ANIMATION (Not Used)--------------------- */
-
-        @keyframes dropDown {
-            0% {
-            transform: translateY(-100px);
-            opacity: 0;
-        }
-            50% {
-            opacity: 1;
-        }
-            100% {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        }
-    
-        .animate-drop {
-            animation: dropDown 1s ease-in-out forwards;
-        }
-
     /* --------------------SLIDER EFFECT(Not Used for Now)---------------------- */
         @keyframes slide {
             0% { transform: translateX(0); }
@@ -193,21 +147,6 @@
 
 <body class="font-advent-pro ">
 
-  <!-- Loader -->
-   <div id="loader" class="relative bg-gray-900 text-white h-screen flex flex-col justify-center items-center overflow-hidden">
-    <div id="loader" class="absolute inset-0 flex flex-col justify-center items-center bg-black z-50">
-      <div class="text-6xl flex space-x-5 font-semibold tracking-widest">
-        <span class="animate-move opacity-0">M</span>
-        <span class="animate-move opacity-0 delay-100">E</span>
-        <span class="animate-move opacity-0 delay-200">E</span>
-        <span class="animate-move opacity-0 delay-300">T</span>
-      </div>
-      <div class="w-48 h-1 bg-white mt-4 animate-loading-line"></div>
-      <p class="mt-4 text-center text-lg text-gray-300 fade-out">The Fun Loving</p>
-    </div>
-   </div>
-
-
   <!-- Add this inside the <body> tag -->
     <div id="small-screen-message" class="hidden fixed inset-0 bg-black text-white flex flex-col justify-center items-center">
         <h1 class="text-3xl font-bold">Open in Laptop only</h1>
@@ -215,8 +154,8 @@
     </div>
 
 
-  <!-- Main Content (Initially Hidden) -->
-  <div id="content" class="hidden">
+  <!-- Main Content -->
+  <div id="content" class="">
  
     <div class="relative flex flex-col justify-center items-center bg-black max-w-screen h-screen">
         <!-- Alternate way// (bg-black max-w-screen h-screen) -->
