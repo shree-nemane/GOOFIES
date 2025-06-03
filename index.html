@@ -18,6 +18,9 @@
 
 
     <link href="https://fonts.cdnfonts.com/css/wix-madefor-display" rel="stylesheet">
+                
+                    
+
 
     <style>
         
@@ -95,6 +98,28 @@
             animation: fadeOut 3.6s ease-in-out;
         }
 
+    
+
+    /* -------------------------DROPDOWN ANIMATION (Not Used)--------------------- */
+
+        @keyframes dropDown {
+            0% {
+            transform: translateY(-100px);
+            opacity: 0;
+        }
+            50% {
+            opacity: 1;
+        }
+            100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        }
+    
+        .animate-drop {
+            animation: dropDown 1s ease-in-out forwards;
+        }
+
     /* --------------------SLIDER EFFECT(Not Used for Now)---------------------- */
         @keyframes slide {
             0% { transform: translateX(0); }
@@ -141,20 +166,31 @@
             }
         }    
 
+        /* Initially hide the main content */
+        .hidden {
+            display: none;
+        }
+
+        /* Show the main content */
+        .visible {
+            display: block;
+        }
+
+
+
     </style>
   
 </head>
 
 <body class="font-advent-pro ">
 
-  <!-- Add this inside the <body> tag -->
+   <!-- Add this inside the <body> tag -->
     <div id="small-screen-message" class="hidden fixed inset-0 bg-black text-white flex flex-col justify-center items-center">
         <h1 class="text-3xl font-bold">Open in Laptop only</h1>
         <p class="text-lg mt-2">This website is best viewed on larger screens.</p>
-    </div>
+    </div>    
 
-
-  <!-- Main Content -->
+  <!-- Main Content (Initially Hidden) -->
   <div id="content" class="">
  
     <div class="relative flex flex-col justify-center items-center bg-black max-w-screen h-screen">
@@ -704,14 +740,9 @@
             <span class="mt-5">~ Made with ❤️ by <a class="text-gray-400 underline" target="_blank" href="https://shree-nemane.github.io/">Shree</a></span>
         </div>
     </div>
-
-    
-  
+ 
   
   </div>
-
-
-
 
 
   <script src="script.js"></script>
