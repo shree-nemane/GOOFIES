@@ -178,6 +178,92 @@
             display: block;
         }
 
+        /* Custom Scrollbar for Webkit browsers (Chrome, Safari, Edge, Opera) */
+    #sparkleBotChatLog::-webkit-scrollbar {
+      width: 8px; /* Width of the scrollbar */
+    }
+
+    #sparkleBotChatLog::-webkit-scrollbar-track {
+      background: #333; /* Dark background for the track */
+      border-radius: 10px; /* Rounded corners for the track */
+    }
+
+    #sparkleBotChatLog::-webkit-scrollbar-thumb {
+      background: #555; /* Slightly lighter dark grey for the thumb */
+      border-radius: 10px; /* Rounded corners for the thumb */
+      border: 2px solid #333; /* Border around the thumb to match track background */
+    }
+
+    #sparkleBotChatLog::-webkit-scrollbar-thumb:hover {
+      background: #666; /* Even lighter grey on hover */
+    }
+
+    /* Custom Scrollbar for Firefox */
+    #sparkleBotChatLog {
+      scrollbar-width: thin; /* "auto" or "thin" */
+      scrollbar-color: #555 #333; /* thumb color track color */
+    }
+
+    /* Animation for chatbox fade-in */
+    @keyframes fade-in-sparkle {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-fade-in-sparkle {
+      animation: fade-in-sparkle 0.3s ease-out forwards;
+    }
+
+    /* Basic typing indicator animation */
+    .dot-flashing {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+      background-color: #888;
+      color: #888;
+      animation: dotFlashing 1s infinite linear alternate;
+      animation-delay: .5s;
+    }
+
+    .dot-flashing::before, .dot-flashing::after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+      background-color: #888;
+      color: #888;
+      animation: dotFlashing 1s infinite linear alternate;
+    }
+
+    .dot-flashing::before {
+      left: -15px;
+      animation-delay: 0s;
+    }
+
+    .dot-flashing::after {
+      left: 15px;
+      animation-delay: 1s;
+    }
+
+    @keyframes dotFlashing {
+      0% {
+        background-color: #888;
+      }
+      50%,
+      100% {
+        background-color: #bbb;
+      }
+    }
+
 
 
     </style>
@@ -693,6 +779,55 @@
 
     <br>
 
+<!-- Cat Bot      -->
+    
+    <button id="sparkleBotToggle" class="fixed bottom-6 right-6 p-4 bg-white rounded-full shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-gray-500 focus:ring-opacity-75 z-50">
+    <span class="text-white text-2xl">🐾</span>
+  </button>
+
+  <div id="sparkleBotBox" class="fixed bottom-24 font-sans right-6 w-full max-w-sm bg-gray-900 rounded-2xl shadow-2xl p-5 flex flex-col hidden z-40" style="height: 450px;">
+    
+    <div class="flex items-center justify-between pb-3 mb-3 border-b border-gray-700">
+      <h2 class="text-2xl font-bold text-gray-200 sparkle-title flex items-center">
+        🐾 caecae <span class="text-lg ml-2 text-gray-400">(Online)</span>
+      </h2>
+      <button id="closeSparkleBotChat" class="text-gray-400 hover:text-white transition-colors focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div id="sparkleBotChatLog" class="flex-1 space-y-4 text-sm overflow-y-auto pr-2 pb-2 text-white max-h-full">
+      </div>
+
+    <div id="sparkleBotTypingIndicator" class="flex items-center ml-2 mt-2 hidden">
+      <span class="text-gray-400 text-sm mr-2">caecae is purr-fectly pondering...</span>
+      <div class="dot-flashing"></div>
+    </div>
+
+    <div class="mt-4 pt-4 border-t border-gray-700">
+      <form id="sparkleBotChatForm" class="flex">
+        <input
+          type="text"
+          id="sparkleBotUserInput"
+          class="flex-1 px-4 py-2 rounded-l-lg bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-200"
+          placeholder="Ask SparkleBot anything..."
+          autocomplete="off"
+        />
+        <button
+          type="submit"
+          class="bg-gray-700 hover:bg-gray-600 active:bg-gray-800 px-5 py-2 rounded-r-lg text-white font-medium flex items-center justify-center transition-colors duration-200"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l.609-.233L10 14.588l6.113 3.045.609.233a1 1 v0a1 1 0 001.169-1.409l-7-14z" />
+          </svg>
+          Send
+        </button>
+      </form>
+    </div>
+  </div>
+
     <!-- ---------------------------------FOOTER SECTION------------------------------------- -->
 
     <div class="bg-black p-8">
@@ -747,7 +882,7 @@
   </div>
 
 
-  <script src="script.js"></script>
+  <script src="backup.js"></script>
 
 
 </body>
