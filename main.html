@@ -18,11 +18,8 @@
 <!-- _______________________Comfortaa_________________________ -->
     <link href="https://fonts.cdnfonts.com/css/comfortaa-3" rel="stylesheet">
 
-
     <link href="https://fonts.cdnfonts.com/css/wix-madefor-display" rel="stylesheet">
                 
-                    
-
 
     <style>
         
@@ -98,41 +95,6 @@
         }
         .fade-out {
             animation: fadeOut 3.6s ease-in-out;
-        }
-
-    
-
-    /* -------------------------DROPDOWN ANIMATION (Not Used)--------------------- */
-
-        @keyframes dropDown {
-            0% {
-            transform: translateY(-100px);
-            opacity: 0;
-        }
-            50% {
-            opacity: 1;
-        }
-            100% {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        }
-    
-        .animate-drop {
-            animation: dropDown 1s ease-in-out forwards;
-        }
-
-    /* --------------------SLIDER EFFECT(Not Used for Now)---------------------- */
-        @keyframes slide {
-            0% { transform: translateX(0); }
-            33% { transform: translateX(-100%); }
-            66% { transform: translateX(-200%); }
-            100% { transform: translateX(0); }
-        }
-
-        .slider {
-            display: flex;
-            animation: slide 30s linear infinite;
         }
 
     /* ---------------------HOVER STRIKE THROUGH---------------------- */
@@ -265,7 +227,6 @@
     }
 
 
-
     </style>
   
 </head>
@@ -308,7 +269,6 @@
   
       <br>
       <br>
-      
   
       <!-- __________________________Mahilaye__________________________ -->
     <div class="flex justify-end items-center">
@@ -779,17 +739,15 @@
 
     <br>
 
-<!-- Cat Bot      -->
-    
     <button id="sparkleBotToggle" class="fixed bottom-6 right-6 p-4 bg-white rounded-full shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-gray-500 focus:ring-opacity-75 z-50">
     <span class="text-white text-2xl">🐾</span>
   </button>
 
-  <div id="sparkleBotBox" class="fixed bottom-24 font-sans right-6 w-full max-w-sm bg-gray-900 rounded-2xl shadow-2xl p-5 flex flex-col hidden z-40" style="height: 450px;">
+  <div id="sparkleBotBox" class="fixed bottom-24 font-sans right-6 w-full max-w-lg bg-gray-900 rounded-2xl shadow-2xl p-5 flex flex-col hidden z-40" style="height: 500px;">
     
     <div class="flex items-center justify-between pb-3 mb-3 border-b border-gray-700">
       <h2 class="text-2xl font-bold text-gray-200 sparkle-title flex items-center">
-        🐾 caecae <span class="text-lg ml-2 text-gray-400">(Online)</span>
+        🐾 Caecae <span class="text-lg ml-2 text-gray-400">(Watching)</span>
       </h2>
       <button id="closeSparkleBotChat" class="text-gray-400 hover:text-white transition-colors focus:outline-none">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -802,27 +760,26 @@
       </div>
 
     <div id="sparkleBotTypingIndicator" class="flex items-center ml-2 mt-2 hidden">
-      <span class="text-gray-400 text-sm mr-2">caecae is purr-fectly pondering...</span>
+      <span class="text-gray-400 text-sm mr-2">Caecae is purr-fectly pondering...</span>
       <div class="dot-flashing"></div>
     </div>
 
     <div class="mt-4 pt-4 border-t border-gray-700">
-      <form id="sparkleBotChatForm" class="flex">
+      <form id="sparkleBotChatForm" class="flex gap-8">
         <input
           type="text"
           id="sparkleBotUserInput"
-          class="flex-1 px-4 py-2 rounded-l-lg bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-200"
-          placeholder="Ask SparkleBot anything..."
+          class="flex-1 px-4 py-2 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-200"
+          placeholder="Ask caecae anything..."
           autocomplete="off"
         />
         <button
           type="submit"
-          class="bg-gray-700 hover:bg-gray-600 active:bg-gray-800 px-5 py-2 rounded-r-lg text-white font-medium flex items-center justify-center transition-colors duration-200"
+          class="bg-gray-700 hover:bg-gray-600 active:bg-gray-800 px-3 py-2 rounded-full text-white font-medium flex items-center justify-center transition-colors duration-200"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l.609-.233L10 14.588l6.113 3.045.609.233a1 1 v0a1 1 0 001.169-1.409l-7-14z" />
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
           </svg>
-          Send
         </button>
       </form>
     </div>
@@ -871,16 +828,13 @@
                 <img class="w-35 mr-15" src="./goofies_assets/intro_title/rabbit.png" alt="animale">
             </div>
             
-            
         </div>
         <div class="flex justify-start text-white">
             <span class="mt-5">~ Made with ❤️ by <a class="text-gray-400 underline" target="_blank" href="https://shree-nemane.github.io/">Shree</a></span>
         </div>
     </div>
  
-  
   </div>
-
 
   <script src="script.js"></script>
 
