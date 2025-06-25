@@ -1,4 +1,3 @@
-//-------------------
 const carousel = document.getElementById("carousel-inner");
 const prevButton = document.getElementById("prev");
 const nextButton = document.getElementById("next");
@@ -59,7 +58,6 @@ carousel.addEventListener("mouseleave", startAutoSlide);
 startAutoSlide();
 
 //--------------------------------------------------------------------------------------
-
 
 //Prank cmd-------------------------------
 
@@ -125,49 +123,59 @@ Respond as if you are perpetually judging them from your cozy, shadowy perch, wi
     // --- Utility Functions ---
     // Function to convert basic markdown to HTML for bot messages
     function convertMarkdownToHtml(markdownText) {
-        let htmlText = markdownText;
+    let htmlText = markdownText;
 
-        // Convert bold: **text** or __text__ to <strong>text</strong>
-        htmlText = htmlText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        htmlText = htmlText.replace(/__(.*?)__/g, '<strong>$1</strong>');
+    // Bold
+    htmlText = htmlText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    htmlText = htmlText.replace(/__(.*?)__/g, '<strong>$1</strong>');
 
-        // Convert italics: *text* or _text_ to <em>text</em>
-        htmlText = htmlText.replace(/\*(.*?)\*/g, '<em>$1</em>');
-        htmlText = htmlText.replace(/_(.*?)_/g, '<em>$1</em>');
+    // Italics
+    htmlText = htmlText.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    htmlText = htmlText.replace(/_(.*?)_/g, '<em>$1</em>');
 
-        // Convert horizontal rules: --- to <hr>
-        htmlText = htmlText.replace(/---/g, '<hr>');
+    // Links [text](url)
+    htmlText = htmlText.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="underline text-blue-300 hover:text-blue-500">$1</a>');
 
-        // Convert line breaks to <br> for multi-line responses
-        htmlText = htmlText.replace(/\n/g, '<br>');
+    // Unordered lists
+    htmlText = htmlText.replace(/(?:^|\n)[*-] (.*?)(?=\n|$)/g, '<li>$1</li>');
+    htmlText = htmlText.replace(/(<li>.*<\/li>)/g, '<ul class="list-disc pl-6">$1</ul>');
 
-        return htmlText;
-    }
+    // Horizontal rules
+    htmlText = htmlText.replace(/---/g, '<hr>');
 
-    function appendMessage(sender, message) { // Removed isUser parameter as sender determines styling
-      const messageDiv = document.createElement('div');
-      messageDiv.classList.add('flex', 'mb-2'); // Add mb-2 for spacing between messages
+    // Line breaks
+    htmlText = htmlText.replace(/\n/g, '<br>');
 
-      if (sender === 'user') {
-        messageDiv.classList.add('justify-end');
-        messageDiv.innerHTML = `
-          <div class="bg-blue-700 text-white p-3 rounded-lg max-w-[70%] shadow-md break-words">
-            ${message}
-          </div>
-        `;
-      } else { // sender === 'SparkleBot' (or any bot identifier)
-        messageDiv.classList.add('justify-start');
-        // Apply markdown conversion for bot messages
-        const formattedMessage = convertMarkdownToHtml(message);
-        messageDiv.innerHTML = `
-          <div class="bg-gray-700 text-white p-3 rounded-lg max-w-[70%] shadow-md break-words">
-            ${formattedMessage}
-          </div>
-        `;
-      }
-      sparkleBotChatLog.appendChild(messageDiv);
-      scrollToBottom();
-    }
+    return htmlText;
+}
+
+    function appendMessage(sender, message) {
+  const messageDiv = document.createElement('div');
+  messageDiv.classList.add('flex', 'mb-2');
+
+  if (sender === 'user') {
+    messageDiv.classList.add('justify-end');
+    messageDiv.innerHTML = `
+      <div class="bg-blue-700 text-white p-3 rounded-lg max-w-[70%] shadow-md break-words">
+        ${message}
+      </div>
+    `;
+  } else { // SparkleBot or bot
+    messageDiv.classList.add('justify-start');
+    const formattedMessage = convertMarkdownToHtml(message);
+    messageDiv.innerHTML = `
+      <div class="flex items-start gap-2 max-w-[80%]">
+        <img src="./goofies_assets/icon.png" alt="SparkleBot" class="w-8 h-8 rounded-full border-2 border-yellow-300 mt-1" />
+        <div class="bg-gray-700 text-white p-3 rounded-lg shadow-md break-words sparkle-bot-bubble">
+          <span class="font-bold text-yellow-300">😼 Caecae:</span><br>
+          ${formattedMessage}
+        </div>
+      </div>
+    `;
+  }
+  sparkleBotChatLog.appendChild(messageDiv);
+ 
+}
 
     function scrollToBottom() {
       sparkleBotChatLog.scrollTop = sparkleBotChatLog.scrollHeight;
@@ -198,11 +206,11 @@ Respond as if you are perpetually judging them from your cozy, shadowy perch, wi
         conversationMessages.push({ role: "user", content: `Here's the detailed data about "The Goofies" group for your reference:\n${JSON.stringify(groupData, null, 2)}` });
         
         // Initial welcome message from SparkleBot
-        appendMessage("SparkleBot", "Purrrfect timing, hooman! SparkleBot's on duty. What's the latest gossip from 'The Goofies' crew? 😼");
+        appendMessage("Caecae", "Purrrfect timing, hooman! Caecae's on duty. What's the latest gossip from 'The Goofies' crew? 😼");
 
       } catch (error) {
         console.error("Failed to load group data:", error);
-        appendMessage("SparkleBot", "Meow! My data snacks got lost. Can't fetch group info right now. 😿");
+        appendMessage("Caecae", "Meow! My data snacks got lost. Can't fetch group info right now. 😿");
       }
     }
 
@@ -230,7 +238,7 @@ Respond as if you are perpetually judging them from your cozy, shadowy perch, wi
       if (userInput === '') {
         sparkleBotUserInput.placeholder = "Please type something, silly hooman...";
         setTimeout(() => {
-          sparkleBotUserInput.placeholder = "Ask SparkleBot anything...";
+          sparkleBotUserInput.placeholder = "Ask Caecae anything...";
         }, 1500);
         return;
       }
@@ -273,7 +281,7 @@ Respond as if you are perpetually judging them from your cozy, shadowy perch, wi
       } catch (error) {
         console.error("Error fetching from Groq API:", error);
         showTypingIndicator(false);
-        appendMessage('SparkleBot', `Ugh, my internet leash got tangled! Can't connect right now. 😭`);
+        appendMessage('SparkleBot', `Ugh, my internet leash got tangled! Can't connect right now. 😭 (${error.message.substring(0, 50)}...)`);
       }
     });
 
