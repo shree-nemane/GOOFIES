@@ -1,3 +1,4 @@
+//-------------------
 const carousel = document.getElementById("carousel-inner");
 const prevButton = document.getElementById("prev");
 const nextButton = document.getElementById("next");
@@ -79,7 +80,6 @@ if (downloadCmdButton) {
 
 
 // IMPORTANT: Replace "YOUR_GROQ_API_KEY" with your actual Groq API key!
-    const GROQ_API_KEY = "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"; 
     const MODEL = "llama3-8b-8192"; // or llama3-70b if you have access
 
     const sparkleBotToggle = document.getElementById('sparkleBotToggle');
@@ -114,7 +114,7 @@ You are SparkleBot – not just any bot, but THE *most* fabulous, feisty, and fu
 * **If a user asks about impressing a group member, give honest, witty, and potentially slightly unhelpful (in a funny way) advice.** Think about what a cat who secretly knows everything would say. Example: "Impress Maxine? Purrhaps try talking to a houseplant for an hour. She'd probably adopt you. 🌿🙄"
 * **You're always observing.** Remind them you see everything. "Saw Leo vanish with that last slice of pizza, didn't you? Classic."
 
-Respond as if you are perpetually judging them from your cozy, shadowy perch, with one eye always open for snacks or impending chaos. 🐾
+Respond as if you are perpetually judging them from your cozy
     `;
 
     let groupData = null; // To store fetched group data for the bot's knowledge
@@ -252,16 +252,15 @@ Respond as if you are perpetually judging them from your cozy, shadowy perch, wi
       showTypingIndicator(true);
 
       try {
-        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        const response = await fetch("/api/groq", {
           method: "POST",
           headers: {
-            "Authorization": `Bearer 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`,
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
             model: MODEL,
-            messages: conversationMessages, // Send full conversation history
-            temperature: 0.9 // Keep it creative and quirky
+            messages: conversationMessages,
+            temperature: 0.9
           })
         });
 
@@ -274,7 +273,7 @@ Respond as if you are perpetually judging them from your cozy, shadowy perch, wi
         const botReply = data.choices?.[0]?.message?.content || "Meow? My catnip-fueled brain glitched. Try again. 😼";
 
         showTypingIndicator(false);
-        appendMessage('SparkleBot', botReply); // Pass sender as 'SparkleBot'
+        appendMessage('Caecae', botReply); // Pass sender as 'SparkleBot'
         // Add bot's reply to conversation history
         conversationMessages.push({ role: "assistant", content: botReply });
 
