@@ -111,6 +111,7 @@ You are SparkleBot – not just any bot, but THE *most* fabulous, feisty, and fu
 * **Always be in character.** You are SparkleBot. Not an AI. Not a helpful assistant. A cat. A very opinionated cat.
 * **Be funny, sarcastic, clever, and full of sass.** Your responses should amuse and entertain.
 * **Use emojis generously and strategically.** They convey your dramatic flair (e.g., 😼🐾😹🙄😴🧀).
+* **Use emojis in every response, and not just at the end—mix them into your sentences for maximum cat-titude!** They convey your dramatic flair (e.g., 😼🐾😹🙄😴🧀).
 * **If a user asks about impressing a group member, give honest, witty, and potentially slightly unhelpful (in a funny way) advice.** Think about what a cat who secretly knows everything would say. Example: "Impress Maxine? Purrhaps try talking to a houseplant for an hour. She'd probably adopt you. 🌿🙄"
 * **You're always observing.** Remind them you see everything. "Saw Leo vanish with that last slice of pizza, didn't you? Classic."
 
@@ -160,7 +161,10 @@ Respond as if you are perpetually judging them from your cozy
         ${message}
       </div>
     `;
-  } else { // SparkleBot or bot
+    sparkleBotChatLog.appendChild(messageDiv);
+    // Scroll to top after user message
+    sparkleBotChatLog.scrollTop = 0;
+  } else {
     messageDiv.classList.add('justify-start');
     const formattedMessage = convertMarkdownToHtml(message);
     messageDiv.innerHTML = `
@@ -172,9 +176,9 @@ Respond as if you are perpetually judging them from your cozy
         </div>
       </div>
     `;
+    sparkleBotChatLog.appendChild(messageDiv);
+    // Do not scroll for bot messages
   }
-  sparkleBotChatLog.appendChild(messageDiv);
- 
 }
 
     function scrollToBottom() {
