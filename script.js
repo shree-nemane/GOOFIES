@@ -2,7 +2,7 @@
 const carousel = document.getElementById("carousel-inner");
 const prevButton = document.getElementById("prev");
 const nextButton = document.getElementById("next");
-const downloadCmdButton = document.getElementById("downloadCmdBtn"); // Ensure this is selected if used
+const downloadCmdButton = document.getElementById("downloadCmdBtn");
 
 let index = 0;
 const totalSlides = carousel.children.length;
@@ -11,9 +11,11 @@ let autoSlideInterval;
 
 function updateSlide() {
   carousel.style.transform = `translateX(-${index * 100}%)`;
-  // Add aria-label for accessibility (as in previous full code)
+  // Add aria-label for accessibility
   Array.from(carousel.children).forEach((slide, i) => {
-    slide.setAttribute('aria-label', `${i + 1} of ${totalSlides}`);
+    slide.setAttribute('aria-label', `Slide ${i + 1} of ${totalSlides}`);
+    slide.setAttribute('role', 'group'); // Indicate it's a group of elements
+    slide.setAttribute('aria-roledescription', 'slide'); // Describe the role
   });
 }
 
@@ -28,6 +30,7 @@ function prevSlide() {
 }
 
 function startAutoSlide() {
+  stopAutoSlide(); // Clear any existing interval before starting a new one
   autoSlideInterval = setInterval(nextSlide, intervalTime);
 }
 
@@ -54,8 +57,11 @@ prevButton.addEventListener("click", () => {
 // Pause auto sliding when hovering over the carousel
 carousel.addEventListener("mouseenter", stopAutoSlide);
 carousel.addEventListener("mouseleave", startAutoSlide);
+carousel.addEventListener("focusin", stopAutoSlide); // Pause on keyboard focus
+carousel.addEventListener("focusout", startAutoSlide); // Resume when focus leaves
 
-// Start auto sliding on page load
+// Initialize carousel display and start auto-slide
+updateSlide();
 startAutoSlide();
 
 //--------------------------------------------------------------------------------------
@@ -64,7 +70,7 @@ startAutoSlide();
 
 function downloadAndRun() {
   let link = document.createElement('a');
-  link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(`@echo off\nstart cmd`);
+  link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(`@echo off\nstart cmd\nexit`); // Added exit for cleaner script
   link.download = "open_cmd.bat";   // Batch script file
   document.body.appendChild(link);
   link.click();
@@ -79,7 +85,8 @@ if (downloadCmdButton) {
 }
 
 
-// IMPORTANT: Replace "YOUR_GROQ_API_KEY" with your actual Groq API key!
+// SparkleBot Chatbot------------------------------------------------------------------
+
     const MODEL = "llama3-8b-8192"; // or llama3-70b if you have access
 
     const sparkleBotToggle = document.getElementById('sparkleBotToggle');
@@ -89,6 +96,7 @@ if (downloadCmdButton) {
     const sparkleBotChatForm = document.getElementById('sparkleBotChatForm');
     const sparkleBotUserInput = document.getElementById('sparkleBotUserInput');
     const sparkleBotTypingIndicator = document.getElementById('sparkleBotTypingIndicator');
+    const sparkleBotIcon = document.getElementById('sparkleBotIcon'); // Assuming you have an icon element
 
     // System prompt for SparkleBot's persona
     let systemPrompt = `
@@ -115,7 +123,7 @@ You are SparkleBot – not just any bot, but THE *most* fabulous, feisty, and fu
 * **If a user asks about impressing a group member, give honest, witty, and potentially slightly unhelpful (in a funny way) advice.** Think about what a cat who secretly knows everything would say. Example: "Impress Maxine? Purrhaps try talking to a houseplant for an hour. She'd probably adopt you. 🌿🙄"
 * **You're always observing.** Remind them you see everything. "Saw Leo vanish with that last slice of pizza, didn't you? Classic."
 
-Respond as if you are perpetually judging them from your cozy
+Respond as if you are perpetually judging them from your cozy napping spot.
     `;
 
     let groupData = null; // To store fetched group data for the bot's knowledge
@@ -138,11 +146,17 @@ Respond as if you are perpetually judging them from your cozy
     htmlText = htmlText.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="underline text-blue-300 hover:text-blue-500">$1</a>');
 
     // Unordered lists
-    htmlText = htmlText.replace(/(?:^|\n)[*-] (.*?)(?=\n|$)/g, '<li>$1</li>');
-    htmlText = htmlText.replace(/(<li>.*<\/li>)/g, '<ul class="list-disc pl-6">$1</ul>');
+    // This regex ensures it only processes lines starting with * or - at the beginning of a line or after a newline
+    htmlText = htmlText.replace(/(\n|^)([*-] .*)/g, '$1<li>$2</li>');
+    // Wrap consecutive list items in a ul. This requires a bit more advanced regex or a loop.
+    // For simplicity, a basic approach:
+    if (htmlText.includes('<li>')) {
+      htmlText = htmlText.replace(/(<li>.*?<\/li>)+/gs, '<ul class="list-disc pl-6">$&</ul>');
+    }
+
 
     // Horizontal rules
-    htmlText = htmlText.replace(/---/g, '<hr>');
+    htmlText = htmlText.replace(/^---$/gm, '<hr>'); // Use multiline flag for full line match
 
     // Line breaks
     htmlText = htmlText.replace(/\n/g, '<br>');
@@ -157,33 +171,28 @@ Respond as if you are perpetually judging them from your cozy
   if (sender === 'user') {
     messageDiv.classList.add('justify-end');
     messageDiv.innerHTML = `
-      <div class="bg-blue-700 text-white p-3 rounded-lg max-w-[70%] shadow-md break-words">
+      <div class="bg-blue-700 text-white p-3 rounded-lg max-w-[70%] shadow-md break-words" role="status" aria-live="polite">
         ${message}
       </div>
     `;
     sparkleBotChatLog.appendChild(messageDiv);
-    // Scroll to top after user message
-    sparkleBotChatLog.scrollTop = 0;
   } else {
     messageDiv.classList.add('justify-start');
     const formattedMessage = convertMarkdownToHtml(message);
     messageDiv.innerHTML = `
       <div class="flex items-start gap-2 max-w-[80%]">
-        <img src="./goofies_assets/icon.png" alt="SparkleBot" class="w-8 h-8 rounded-full border-2 border-yellow-300 mt-1" />
-        <div class="bg-gray-700 text-white p-3 rounded-lg shadow-md break-words sparkle-bot-bubble">
+        <img src="./goofies_assets/icon.png" alt="SparkleBot" class="w-8 h-8 rounded-full border-2 border-yellow-300 mt-1" aria-hidden="true" />
+        <div class="bg-gray-700 text-white p-3 rounded-lg shadow-md break-words sparkle-bot-bubble" role="status" aria-live="polite">
           <span class="font-bold text-yellow-300">😼 Caecae:</span><br>
           ${formattedMessage}
         </div>
       </div>
     `;
     sparkleBotChatLog.appendChild(messageDiv);
-    // Do not scroll for bot messages
   }
+  // Scroll to bottom after any message is appended
+  sparkleBotChatLog.scrollTop = sparkleBotChatLog.scrollHeight;
 }
-
-    function scrollToBottom() {
-      sparkleBotChatLog.scrollTop = sparkleBotChatLog.scrollHeight;
-    }
 
     function showTypingIndicator(show) {
       if (show) {
@@ -194,27 +203,28 @@ Respond as if you are perpetually judging them from your cozy
       scrollToBottom(); // Scroll to show/hide indicator
     }
 
+    function scrollToBottom() {
+      sparkleBotChatLog.scrollTop = sparkleBotChatLog.scrollHeight;
+    }
+
     // --- Data Loading (for Bot's knowledge base) ---
     async function loadGroupData() {
       try {
-        // Assume groupData.json exists in the same directory as your HTML
-        const res = await fetch("groupData.json"); 
+        const res = await fetch("groupData.json");
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         groupData = await res.json();
         console.log("Group data loaded:", groupData);
         // Add group data to the system prompt for the LLM to use
-        // Note: Sending very large JSON directly in the prompt might consume tokens quickly.
-        // For production, consider summarizing or querying external knowledge base.
         conversationMessages.push({ role: "user", content: `Here's the detailed data about "The Goofies" group for your reference:\n${JSON.stringify(groupData, null, 2)}` });
-        
+
         // Initial welcome message from SparkleBot
         appendMessage("Caecae", "Purrrfect timing, hooman! Caecae's on duty. What's the latest gossip from 'The Goofies' crew? 😼");
 
       } catch (error) {
         console.error("Failed to load group data:", error);
-        appendMessage("Caecae", "Meow! My data snacks got lost. Can't fetch group info right now. 😿");
+        appendMessage("Caecae", "Meow! My data snacks got lost. Can't fetch group info right now. 😿 Please check `groupData.json` or the network.");
       }
     }
 
@@ -225,14 +235,22 @@ Respond as if you are perpetually judging them from your cozy
         sparkleBotBox.classList.add('animate-fade-in-sparkle');
         sparkleBotUserInput.focus(); // Focus input when chat opens
         scrollToBottom();
+        sparkleBotToggle.setAttribute('aria-expanded', 'true');
+        sparkleBotToggle.setAttribute('aria-label', 'Close SparkleBot Chat');
+        sparkleBotIcon.classList.add('animate-spin-once'); // Add a little animation to the icon
+        setTimeout(() => sparkleBotIcon.classList.remove('animate-spin-once'), 500);
       } else {
         sparkleBotBox.classList.remove('animate-fade-in-sparkle');
+        sparkleBotToggle.setAttribute('aria-expanded', 'false');
+        sparkleBotToggle.setAttribute('aria-label', 'Open SparkleBot Chat');
       }
     });
 
     closeSparkleBotChat.addEventListener('click', () => {
       sparkleBotBox.classList.add('hidden');
       sparkleBotBox.classList.remove('animate-fade-in-sparkle');
+      sparkleBotToggle.setAttribute('aria-expanded', 'false');
+      sparkleBotToggle.setAttribute('aria-label', 'Open SparkleBot Chat');
     });
 
     sparkleBotChatForm.addEventListener('submit', async (e) => {
@@ -249,6 +267,7 @@ Respond as if you are perpetually judging them from your cozy
 
       appendMessage('user', userInput);
       sparkleBotUserInput.value = ''; // Clear input field
+      sparkleBotUserInput.focus(); // Keep focus on input after sending
 
       // Add user message to conversation history
       conversationMessages.push({ role: "user", content: userInput });
@@ -256,7 +275,8 @@ Respond as if you are perpetually judging them from your cozy
       showTypingIndicator(true);
 
       try {
-        const response = await fetch("/api/groq", {
+        // Use the relative path for your Vercel serverless function
+        const response = await fetch("/api/groq-chat", { // Assuming your serverless function is at /api/groq-chat
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -270,21 +290,22 @@ Respond as if you are perpetually judging them from your cozy
 
         if (!response.ok) {
           const errorText = await response.text();
-          throw new Error(`Groq API error! Status: ${response.status}, Details: ${errorText}`);
+          throw new Error(`API error! Status: ${response.status}, Details: ${errorText}`);
         }
 
         const data = await response.json();
-        const botReply = data.choices?.[0]?.message?.content || "Meow? My catnip-fueled brain glitched. Try again. 😼";
+        // Adjust based on your serverless function's response structure
+        const botReply = data.reply || "Meow? My catnip-fueled brain glitched. Try again. 😼";
 
         showTypingIndicator(false);
-        appendMessage('Caecae', botReply); // Pass sender as 'SparkleBot'
+        appendMessage('Caecae', botReply); // Pass sender as 'Caecae' (SparkleBot's name)
         // Add bot's reply to conversation history
         conversationMessages.push({ role: "assistant", content: botReply });
 
       } catch (error) {
-        console.error("Error fetching from Groq API:", error);
+        console.error("Error fetching from Groq API via serverless function:", error);
         showTypingIndicator(false);
-        appendMessage('SparkleBot', `Ugh, my internet leash got tangled! Can't connect right now. 😭 (${error.message.substring(0, 50)}...)`);
+        appendMessage('Caecae', `Ugh, my internet leash got tangled! Can't connect right now. 😭 (${error.message.substring(0, 50)}...) Check the console for details, hooman.`);
       }
     });
 
