@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ success: false, message: 'Method Not Allowed', error: 'Only POST requests are supported.' });
   }
 
-  // 2. API Key Check
+  // 2. API Key Check from Vercel Environment Variables
   const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
   if (!GOOGLE_API_KEY) {
     console.error('Server Error: GOOGLE_API_KEY environment variable is not set.');
@@ -16,6 +16,7 @@ export default async function handler(req, res) {
   }
 
   // 3. Request Body Validation
+  // Ensure 'contents' is always present and an array
   const { contents, model, generationConfig, safetySettings } = req.body;
 
   if (!contents || !Array.isArray(contents) || contents.length === 0) {
@@ -32,7 +33,8 @@ export default async function handler(req, res) {
   // generationConfig and safetySettings are optional, no strict validation needed for presence.
 
   const genAI = new GoogleGenerativeAI(GOOGLE_API_KEY);
-  const geminiModel = genAI.getGenerativeModel({ model: model || "gemini-1.5-flash" }); // Use provided model or default
+  // Use the model provided by the frontend, or default to "gemini-1.5-flash"
+  const geminiModel = genAI.getGenerativeModel({ model: model || "gemini-1.5-flash" });
 
   try {
     const result = await geminiModel.generateContent({
@@ -41,24 +43,17 @@ export default async function handler(req, res) {
       safetySettings,
     });
 
-    // --- START CHANGES: Add these console.log statements ---
-    console.log("Full Gemini API Response:", JSON.stringify(result.response, null, 2));
-
-    if (result.response && result.response.candidates && result.response.candidates.length > 0) {
-      console.log("First Candidate Object:", JSON.stringify(result.response.candidates[0], null, 2));
-    }
-    // --- END CHANGES ---
-
     // Check if candidates exist and return the first one
     if (result.response && result.response.candidates && result.response.candidates.length > 0) {
       return res.status(200).json({ success: true, data: result.response.candidates[0] });
     } else {
-      console.warn('Gemini API Warning: No candidates returned from generateContent.', result.response);
+      // Log full response if no candidates, helpful for debugging safety blocks etc.
+      console.warn('Gemini API Warning: No candidates returned from generateContent.', JSON.stringify(result.response, null, 2));
       return res.status(200).json({ success: true, message: 'No content generated.', data: null });
     }
 
   } catch (error) {
-    console.error('Error calling Google Gemini API:', error);
+    console.error('Error calling Google Gemini API from serverless function:', error);
 
     // Extract more specific error message from Google's API response if possible
     let errorMessage = 'An unexpected error occurred while communicating with the AI.';
