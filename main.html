@@ -226,6 +226,12 @@
       }
     }
 
+      .typed-char {
+    opacity: 0;
+    transition: opacity 0.085s ease-in; /* Adjust '0.08s' for faster/slower fade-in of each character */
+    }
+
+
 
     </style>
   
@@ -761,7 +767,6 @@
 
     <div id="sparkleBotTypingIndicator" class="flex items-center ml-2 mt-2 hidden">
       <span class="text-gray-400 text-sm mr-2">Caecae is purr-fectly pondering...</span>
-      <div class="dot-flashing"></div>
     </div>
 
     <div class="mt-4 pt-4 border-t border-gray-700">

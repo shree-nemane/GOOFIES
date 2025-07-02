@@ -1,0 +1,15 @@
+{
+  "name": "sparklebot-project",
+  "version": "1.0.0",
+  "description": "A chatbot project with SparkleBot",
+  "main": "backup.js",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.14.0"
+  },
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC"
+}
