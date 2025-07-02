@@ -41,6 +41,14 @@ export default async function handler(req, res) {
       safetySettings,
     });
 
+    // --- START CHANGES: Add these console.log statements ---
+    console.log("Full Gemini API Response:", JSON.stringify(result.response, null, 2));
+
+    if (result.response && result.response.candidates && result.response.candidates.length > 0) {
+      console.log("First Candidate Object:", JSON.stringify(result.response.candidates[0], null, 2));
+    }
+    // --- END CHANGES ---
+
     // Check if candidates exist and return the first one
     if (result.response && result.response.candidates && result.response.candidates.length > 0) {
       return res.status(200).json({ success: true, data: result.response.candidates[0] });
