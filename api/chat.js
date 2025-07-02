@@ -8,7 +8,6 @@ export default async function handler(req, res) {
     return res.status(405).json({ success: false, message: 'Method Not Allowed', error: 'Only POST requests are supported.' });
   }
 
-  GOOGLE_API_KEY = "AIzaSyCYmVDunuyqoMEMVefVDrUccDxO8bXTbrY"
   // 2. API Key Check
   const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
   if (!GOOGLE_API_KEY) {
