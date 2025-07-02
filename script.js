@@ -344,7 +344,7 @@ I possess a complete, almost spooky, knowledge database of "The Goofies" group. 
 
       try {
         // --- IMPORTANT CHANGE: Call your new serverless function instead of direct Google API ---
-        const response = await fetch('/api/chat.js', { // <-- Changed URL here!
+        const response = await fetch('/api/chat', { // <-- Changed URL here!
           method: "POST",
           headers: {
             "Content-Type": "application/json"
