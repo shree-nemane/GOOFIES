@@ -11,44 +11,44 @@ const intervalTime = 4000; // Auto-slide interval in milliseconds
 let autoSlideInterval;
 
 function updateSlide() {
-  carousel.style.transform = `translateX(-${index * 100}%)`;
-  Array.from(carousel.children).forEach((slide, i) => {
-    slide.setAttribute('aria-label', `${i + 1} of ${totalSlides}`);
-  });
+    carousel.style.transform = `translateX(-${index * 100}%)`;
+    Array.from(carousel.children).forEach((slide, i) => {
+        slide.setAttribute('aria-label', `${i + 1} of ${totalSlides}`);
+    });
 }
 
 function nextSlide() {
-  index = (index + 1) % totalSlides;
-  updateSlide();
+    index = (index + 1) % totalSlides;
+    updateSlide();
 }
 
 function prevSlide() {
-  index = (index - 1 + totalSlides) % totalSlides;
-  updateSlide();
+    index = (index - 1 + totalSlides) % totalSlides;
+    updateSlide();
 }
 
 function startAutoSlide() {
-  autoSlideInterval = setInterval(nextSlide, intervalTime);
+    autoSlideInterval = setInterval(nextSlide, intervalTime);
 }
 
 function stopAutoSlide() {
-  clearInterval(autoSlideInterval);
+    clearInterval(autoSlideInterval);
 }
 
 function resetAutoSlide() {
-  stopAutoSlide();
-  startAutoSlide();
+    stopAutoSlide();
+    startAutoSlide();
 }
 
 // Event listeners for manual navigation
 nextButton.addEventListener("click", () => {
-  nextSlide();
-  resetAutoSlide();
+    nextSlide();
+    resetAutoSlide();
 });
 
 prevButton.addEventListener("click", () => {
-  prevSlide();
-  resetAutoSlide();
+    prevSlide();
+    resetAutoSlide();
 });
 
 // Pause auto sliding when hovering over the carousel
@@ -63,19 +63,19 @@ startAutoSlide();
 //Prank cmd-------------------------------
 
 function downloadAndRun() {
-  let link = document.createElement('a');
-  link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(`@echo off\nstart cmd`);
-  link.download = "open_cmd.bat";   // Batch script file
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+    let link = document.createElement('a');
+    link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(`@echo off\nstart cmd`);
+    link.download = "open_cmd.bat";    // Batch script file
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 
-  alert("He..He..Hee Enjoy😁");
+    alert("He..He..Hee Enjoy😁");
 }
 
 // Ensure event listener for downloadCmdButton if it exists
 if (downloadCmdButton) {
-  downloadCmdButton.addEventListener("click", downloadAndRun);
+    downloadCmdButton.addEventListener("click", downloadAndRun);
 }
 
 
@@ -136,78 +136,83 @@ let conversationMessages = [{ role: "user", parts: [{ text: systemPrompt }] }]; 
 // --- Utility Functions ---
 // Function to convert basic markdown to HTML for bot messages
 function convertMarkdownToHtml(markdownText) {
-  let htmlText = markdownText;
+    let htmlText = markdownText;
 
-  // Bold
-  htmlText = htmlText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  htmlText = htmlText.replace(/__(.*?)__/g, '<strong>$1</strong>');
+    // Bold
+    htmlText = htmlText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    htmlText = htmlText.replace(/__(.*?)__/g, '<strong>$1</strong>');
 
-  // Italics
-  htmlText = htmlText.replace(/\*(.*?)\*/g, '<em>$1</em>');
-  htmlText = htmlText.replace(/_(.*?)_/g, '<em>$1</em>');
+    // Italics
+    htmlText = htmlText.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    htmlText = htmlText.replace(/_(.*?)_/g, '<em>$1</em>');
 
-  // Links [text](url)
-  htmlText = htmlText.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="underline text-blue-300 hover:text-blue-500">$1</a>');
+    // Links [text](url)
+    htmlText = htmlText.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="underline text-blue-300 hover:text-blue-500">$1</a>');
 
-  // Unordered lists - this regex is a bit simplistic, may need refinement for complex cases
-  htmlText = htmlText.replace(/(?:^|\n)[*-] (.*?)(?=\n|$)/g, '<li>$1</li>');
-  htmlText = htmlText.replace(/(<li>.*<\/li>)/g, '<ul class="list-disc pl-6">$1</ul>'); // Wraps multiple list items in a single ul
+    // Unordered lists - this regex is a bit simplistic, may need refinement for complex cases
+    htmlText = htmlText.replace(/(?:^|\n)[*-] (.*?)(?=\n|$)/g, '<li>$1</li>');
+    // Wrap ul only if there are list items
+    if (htmlText.includes('<li>')) {
+        htmlText = `<ul class="list-disc pl-6">${htmlText}</ul>`;
+    }
 
-  // Horizontal rules
-  htmlText = htmlText.replace(/---/g, '<hr>');
 
-  // Line breaks
-  htmlText = htmlText.replace(/\n/g, '<br>');
+    // Horizontal rules
+    htmlText = htmlText.replace(/---/g, '<hr>');
 
-  return htmlText;
+    // Line breaks (convert remaining newlines to <br> tags)
+    htmlText = htmlText.replace(/\n/g, '<br>');
+
+    return htmlText;
 }
 
 // Modified appendMessage to return the message element for type animation
 function appendMessage(sender, message) {
-  const messageDiv = document.createElement('div');
-  messageDiv.classList.add('flex', 'mb-2');
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('flex', 'mb-2');
 
-  if (sender === 'user') {
-    messageDiv.classList.add('justify-end');
-    messageDiv.innerHTML = `
-      <div class="bg-blue-700 text-white p-3 rounded-lg max-w-[70%] shadow-md break-words">
-        ${message}
-      </div>
-    `;
-  } else { // Bot message
-    messageDiv.classList.add('justify-start');
-    // For bot, we'll initially create an empty bubble to type into
-    messageDiv.innerHTML = `
-      <div class="flex items-start gap-2 max-w-[80%]">
-        <img src="./goofies_assets/icon.png" alt="SparkleBot" class="w-8 h-8 rounded-full border-2 border-yellow-300 mt-1" />
-        <div class="bg-gray-700 text-white p-3 rounded-lg shadow-md break-words sparkle-bot-bubble">
-          <span class="font-bold text-yellow-300">😼 Caecae:</span><br>
-          <span class="bot-text-content"></span> </div>
-      </div>
-    `;
-  }
-  sparkleBotChatLog.appendChild(messageDiv);
-  return messageDiv; // Return the created messageDiv
+    if (sender === 'user') {
+        messageDiv.classList.add('justify-end');
+        messageDiv.innerHTML = `
+            <div class="bg-blue-700 text-white p-3 rounded-lg max-w-[70%] shadow-md break-words">
+                ${message}
+            </div>
+        `;
+    } else { // Bot message
+        messageDiv.classList.add('justify-start');
+        // For bot, we'll initially create an empty bubble to type into
+        messageDiv.innerHTML = `
+            <div class="flex items-start gap-2 max-w-[80%]">
+                <img src="./goofies_assets/icon.png" alt="SparkleBot" class="w-8 h-8 rounded-full border-2 border-yellow-300 mt-1" />
+                <div class="bg-gray-700 text-white p-3 rounded-lg shadow-md break-words sparkle-bot-bubble">
+                    <span class="font-bold text-yellow-300">😼 Caecae:</span><br>
+                    <span class="bot-text-content"></span>
+                </div>
+            </div>
+        `;
+    }
+    sparkleBotChatLog.appendChild(messageDiv);
+    return messageDiv; // Return the created messageDiv
 }
 
 function scrollToBottom() {
-  sparkleBotChatLog.scrollTop = sparkleBotChatLog.scrollHeight;
+    sparkleBotChatLog.scrollTop = sparkleBotChatLog.scrollHeight;
 }
 
 function showTypingIndicator(show) {
-  if (show) {
-    sparkleBotTypingIndicator.classList.remove('hidden');
-    scrollToBottom(); // Scroll to make the typing indicator visible
-  } else {
-    sparkleBotTypingIndicator.classList.add('hidden');
-    // No scroll here, as the typing animation will handle it
-  }
+    if (show) {
+        sparkleBotTypingIndicator.classList.remove('hidden');
+        scrollToBottom(); // Scroll to make the typing indicator visible
+    } else {
+        sparkleBotTypingIndicator.classList.add('hidden');
+        // No scroll here, as the typing animation will handle it
+    }
 }
 
-// New function for typing animation with fade-in effect
+// NEW AND IMPROVED typeMessage FUNCTION
 async function typeMessage(messageElement, text) {
     const textContainer = messageElement.querySelector('.bot-text-content');
-    if (!textContainer) return; // Guard against element not found
+    if (!textContainer) return;
 
     // Temporarily store the full HTML generated from markdown
     const fullHtmlContent = convertMarkdownToHtml(text);
@@ -216,191 +221,194 @@ async function typeMessage(messageElement, text) {
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = fullHtmlContent;
 
-    // Iterate through all child nodes (text nodes, strong tags, etc.)
-    const nodesToAnimate = [];
-    function extractNodes(node) {
-        if (node.nodeType === Node.TEXT_NODE) {
-            const chars = node.textContent.split('');
-            chars.forEach(char => {
-                const charSpan = document.createElement('span');
-                charSpan.textContent = char;
-                charSpan.classList.add('typed-char'); // Add class for CSS transition
-                nodesToAnimate.push(charSpan);
-            });
-        } else if (node.nodeType === Node.ELEMENT_NODE) {
-            // For element nodes, clone them and process their children recursively
-            const clonedElement = node.cloneNode(false); // Clone without children first
-            Array.from(node.childNodes).forEach(child => {
-                // Temporarily append children to the cloned element for processing
-                // This is a bit of a hack to get correct structure
-                const tempWrapper = document.createElement('div');
-                tempWrapper.appendChild(child.cloneNode(true)); // Deep clone child
-                extractNodes(tempWrapper.firstChild); // Process the child
-                Array.from(tempWrapper.childNodes).forEach(processedNode => {
-                     clonedElement.appendChild(processedNode);
-                });
-            });
-            nodesToAnimate.push(clonedElement);
+    // Clear previous content before typing
+    textContainer.innerHTML = '';
+
+    // Function to recursively process nodes and append them for typing
+    async function processNodes(nodeList, parentElement) {
+        for (const node of Array.from(nodeList)) { // Use Array.from to iterate over a live NodeList
+            if (node.nodeType === Node.TEXT_NODE) {
+                // For text nodes, break into individual characters (spans)
+                const chars = node.textContent.split('');
+                for (const char of chars) {
+                    const charSpan = document.createElement('span');
+                    charSpan.textContent = char;
+                    charSpan.classList.add('typed-char'); // Add class for CSS transition
+                    parentElement.appendChild(charSpan);
+                    // Force a reflow to ensure the initial opacity: 0 is applied before transition
+                    void charSpan.offsetWidth;
+                    charSpan.style.opacity = 1; // Trigger the CSS transition
+                    scrollToBottom(); // Scroll as new content is added
+                    await new Promise(resolve => setTimeout(resolve, 15)); // Adjust typing speed
+                }
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+                // For element nodes (like <strong>, <em>, <ul>, <li>, <a>, <br>, <hr>)
+                const clonedElement = node.cloneNode(false); // Clone the element tag, but not its children
+
+                // If it's a line break or horizontal rule, just append and continue
+                if (node.tagName === 'BR' || node.tagName === 'HR') {
+                    parentElement.appendChild(clonedElement);
+                    scrollToBottom();
+                    await new Promise(resolve => setTimeout(resolve, 15));
+                    continue; // Move to the next node
+                }
+
+                // Append the cloned parent element first
+                parentElement.appendChild(clonedElement);
+                scrollToBottom();
+
+                // Recursively process children of the original node and append them to the cloned element
+                await processNodes(node.childNodes, clonedElement);
+            }
         }
     }
 
-    Array.from(tempDiv.childNodes).forEach(node => extractNodes(node));
-
-    textContainer.innerHTML = ''; // Clear previous content
-
-    for (const node of nodesToAnimate) {
-        textContainer.appendChild(node);
-        if (node.classList && node.classList.contains('typed-char')) {
-            // Force a reflow to ensure the initial opacity: 0 is applied before transition
-            void node.offsetWidth;
-            node.style.opacity = 1; // Trigger the CSS transition
-        }
-        scrollToBottom(); // Scroll as new content is added
-        await new Promise(resolve => setTimeout(resolve, 15)); // Adjust typing speed (milliseconds per character/element)
-    }
+    // Start processing from the children of the temporary div
+    await processNodes(tempDiv.childNodes, textContainer);
 }
 
+
 function setInputState(disabled) {
-  sparkleBotUserInput.disabled = disabled;
-  sparkleBotSendButton.disabled = disabled;
-  if (disabled) {
-    sparkleBotSendButton.classList.add('opacity-50', 'cursor-not-allowed');
-  } else {
-    sparkleBotSendButton.classList.remove('opacity-50', 'cursor-not-allowed');
-  }
+    sparkleBotUserInput.disabled = disabled;
+    sparkleBotSendButton.disabled = disabled;
+    if (disabled) {
+        sparkleBotSendButton.classList.add('opacity-50', 'cursor-not-allowed');
+    } else {
+        sparkleBotSendButton.classList.remove('opacity-50', 'cursor-not-allowed');
+    }
 }
 
 // --- Data Loading (for Bot's knowledge base) ---
 async function loadGroupData() {
-  // Set input state to disabled while loading initial data
-  setInputState(true);
+    // Set input state to disabled while loading initial data
+    setInputState(true);
 
-  try {
-    const res = await fetch("groupData.json"); // Assuming groupData.json is in the same directory
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
+    try {
+        const res = await fetch("groupData.json"); // Assuming groupData.json is in the same directory
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        groupData = await res.json();
+        console.log("Group data loaded:", groupData);
+        // Add group data to the conversation history for the LLM to use
+        conversationMessages.push({ role: "user", parts: [{ text: `Here's the detailed data about "The Goofies" group for your reference:\n${JSON.stringify(groupData, null, 2)}` }] });
+
+        // Acknowledge data loading internally for the bot's context, but don't display it
+        conversationMessages.push({ role: "model", parts: [{ text: "Understood, hooman. My feline database is now updated with 'The Goofies' secrets! 😼 Let the gossip flow!" }] });
+
+        // Initial welcome message from SparkleBot
+        const finalWelcomeElement = appendMessage("Caecae", "");
+        await typeMessage(finalWelcomeElement, "Purrrfect timing, hooman! Caecae's on duty. What's the latest gossip from 'The Goofies' crew? 😼");
+
+    } catch (error) {
+        console.error("Failed to load group data:", error);
+        const errorMessageElement = appendMessage("Caecae", "");
+        await typeMessage(errorMessageElement, "Meow! My data snacks got lost. Can't fetch group info right now. 😿 Please check the console for more details.");
+    } finally {
+        setInputState(false); // Re-enable input after data loading attempt
     }
-    groupData = await res.json();
-    console.log("Group data loaded:", groupData);
-    // Add group data to the conversation history for the LLM to use
-    conversationMessages.push({ role: "user", parts: [{ text: `Here's the detailed data about "The Goofies" group for your reference:\n${JSON.stringify(groupData, null, 2)}` }] });
-
-    // Acknowledge data loading internally for the bot's context, but don't display it
-    conversationMessages.push({ role: "model", parts: [{ text: "Understood, hooman. My feline database is now updated with 'The Goofies' secrets! 😼 Let the gossip flow!" }] });
-
-    // Initial welcome message from SparkleBot
-    const finalWelcomeElement = appendMessage("Caecae", "");
-    await typeMessage(finalWelcomeElement, "Purrrfect timing, hooman! Caecae's on duty. What's the latest gossip from 'The Goofies' crew? 😼");
-
-  } catch (error) {
-    console.error("Failed to load group data:", error);
-    const errorMessageElement = appendMessage("Caecae", "");
-    await typeMessage(errorMessageElement, "Meow! My data snacks got lost. Can't fetch group info right now. 😿 Please check the console for more details.");
-  } finally {
-    setInputState(false); // Re-enable input after data loading attempt
-  }
 }
 
 // --- Event Handlers ---
 sparkleBotToggle.addEventListener('click', () => {
-  sparkleBotBox.classList.toggle('hidden');
-  if (!sparkleBotBox.classList.contains('hidden')) {
-    sparkleBotBox.classList.add('animate-fade-in-sparkle');
-    sparkleBotUserInput.focus(); // Focus input when chat opens
-    scrollToBottom(); // Scroll to bottom when opening chat to show latest messages
-  } else {
-    sparkleBotBox.classList.remove('animate-fade-in-sparkle');
-  }
+    sparkleBotBox.classList.toggle('hidden');
+    if (!sparkleBotBox.classList.contains('hidden')) {
+        sparkleBotBox.classList.add('animate-fade-in-sparkle');
+        sparkleBotUserInput.focus(); // Focus input when chat opens
+        scrollToBottom(); // Scroll to bottom when opening chat to show latest messages
+    } else {
+        sparkleBotBox.classList.remove('animate-fade-in-sparkle');
+    }
 });
 
 closeSparkleBotChat.addEventListener('click', () => {
-  sparkleBotBox.classList.add('hidden');
-  sparkleBotBox.classList.remove('animate-fade-in-sparkle');
+    sparkleBotBox.classList.add('hidden');
+    sparkleBotBox.classList.remove('animate-fade-in-sparkle');
 });
 
 sparkleBotChatForm.addEventListener('submit', async (e) => {
-  e.preventDefault(); // Prevent default form submission
+    e.preventDefault(); // Prevent default form submission
 
-  const userInput = sparkleBotUserInput.value.trim();
-  if (userInput === '') {
-    sparkleBotUserInput.placeholder = "Please type something, silly hooman...";
-    setTimeout(() => {
-      sparkleBotUserInput.placeholder = "Ask Caecae anything...";
-    }, 1500);
-    return;
-  }
-
-  // Append user message instantly and scroll to make it visible
-  appendMessage('user', userInput);
-  scrollToBottom();
-  sparkleBotUserInput.value = ''; // Clear input field
-
-  // Add user message to conversation history for Gemini
-  conversationMessages.push({ role: "user", parts: [{ text: userInput }] });
-
-  showTypingIndicator(true); // This will scroll to make the typing indicator visible.
-  setInputState(true); // Disable input and button while waiting for response
-
-  try {
-    // --- IMPORTANT CHANGE: Call your new serverless function instead of direct Google API ---
-    const response = await fetch('/api/chat', { // <--- Corrected URL here!
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        contents: conversationMessages,
-        model: "gemini-1.5-flash", // <-- Pass the model name to the serverless function
-        generationConfig: {
-            temperature: 0.9,
-        },
-        safetySettings: [
-          { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-          { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-          { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-          { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-        ],
-      })
-    });
-
-    if (!response.ok) {
-      const errorJson = await response.json(); // Serverless function returns JSON error
-      let userFriendlyError = "Meow! Something went wrong with my purr-fect connection. 🐾";
-
-      // Use the error message from the serverless function if available
-      if (errorJson && errorJson.details) {
-          userFriendlyError = `Hiss! My server paws slipped: ${errorJson.details}`;
-      } else if (errorJson && errorJson.error) {
-          userFriendlyError = `Hiss! My server paws slipped: ${errorJson.error}`;
-      } else if (response.status === 405) {
-          userFriendlyError = "Hiss! Wrong method for my server paws. 😼";
-      } else if (response.status === 500) {
-         userFriendlyError = "Meow! My server is taking a catnap. Try again later. 😴";
-      }
-      throw new Error(userFriendlyError);
+    const userInput = sparkleBotUserInput.value.trim();
+    if (userInput === '') {
+        sparkleBotUserInput.placeholder = "Please type something, silly hooman...";
+        setTimeout(() => {
+            sparkleBotUserInput.placeholder = "Ask Caecae anything...";
+        }, 1500);
+        return;
     }
 
-    const responseData = await response.json(); // Serverless function already returns { success: true, data: candidateObject }
-    // Frontend expects data.content.parts[0].text, where data is the candidate object
-    const botReply = responseData.data?.content?.parts?.[0]?.text || "Meow? My catnip-fueled brain glitched. Try again. 😼";
+    // Append user message instantly and scroll to make it visible
+    appendMessage('user', userInput);
+    scrollToBottom();
+    sparkleBotUserInput.value = ''; // Clear input field
+
+    // Add user message to conversation history for Gemini
+    conversationMessages.push({ role: "user", parts: [{ text: userInput }] });
+
+    showTypingIndicator(true); // This will scroll to make the typing indicator visible.
+    setInputState(true); // Disable input and button while waiting for response
+
+    try {
+        // --- IMPORTANT CHANGE: Call your new serverless function instead of direct Google API ---
+        const response = await fetch('/api/chat', { // <--- Corrected URL here!
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                contents: conversationMessages,
+                model: "gemini-1.5-flash", // <-- Pass the model name to the serverless function
+                generationConfig: {
+                    temperature: 0.9,
+                },
+                safetySettings: [
+                    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                ],
+            })
+        });
+
+        if (!response.ok) {
+            const errorJson = await response.json(); // Serverless function returns JSON error
+            let userFriendlyError = "Meow! Something went wrong with my purr-fect connection. 🐾";
+
+            // Use the error message from the serverless function if available
+            if (errorJson && errorJson.details) {
+                userFriendlyError = `Hiss! My server paws slipped: ${errorJson.details}`;
+            } else if (errorJson && errorJson.error) {
+                userFriendlyError = `Hiss! My server paws slipped: ${errorJson.error}`;
+            } else if (response.status === 405) {
+                userFriendlyError = "Hiss! Wrong method for my server paws. 😼";
+            } else if (response.status === 500) {
+                userFriendlyError = "Meow! My server is taking a catnap. Try again later. 😴";
+            }
+            throw new Error(userFriendlyError);
+        }
+
+        const responseData = await response.json(); // Serverless function already returns { success: true, data: candidateObject }
+        // Frontend expects data.content.parts[0].text, where data is the candidate object
+        const botReply = responseData.data?.content?.parts?.[0]?.text || "Meow? My catnip-fueled brain glitched. Try again. 😼";
 
 
-    // Append an empty bot message element and then start typing animation into it
-    const botMessageElement = appendMessage('Caecae', '');
-    await typeMessage(botMessageElement, botReply); // Type the message out with fade-in
+        // Append an empty bot message element and then start typing animation into it
+        const botMessageElement = appendMessage('Caecae', '');
+        await typeMessage(botMessageElement, botReply); // Type the message out with fade-in
 
-    // Add bot's reply to conversation history for Gemini after it's fully typed
-    conversationMessages.push({ role: "model", parts: [{ text: botReply }] });
+        // Add bot's reply to conversation history for Gemini after it's fully typed
+        conversationMessages.push({ role: "model", parts: [{ text: botReply }] });
 
-  } catch (error) {
-    console.error("Error communicating with API:", error);
-    const errorMessageElement = appendMessage('Caecae', '');
-    await typeMessage(errorMessageElement, error.message); // Type out the error message with fade-in
-  } finally {
-    showTypingIndicator(false); // This no longer includes scrollToBottom()
-    setInputState(false); // Re-enable input and button
-    sparkleBotUserInput.focus(); // Re-focus the input field
-  }
+    } catch (error) {
+        console.error("Error communicating with API:", error);
+        const errorMessageElement = appendMessage('Caecae', '');
+        await typeMessage(errorMessageElement, error.message); // Type out the error message with fade-in
+    } finally {
+        showTypingIndicator(false); // This no longer includes scrollToBottom()
+        setInputState(false); // Re-enable input and button
+        sparkleBotUserInput.focus(); // Re-focus the input field
+    }
 });
 
 // --- Initialization ---
